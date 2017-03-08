@@ -1,0 +1,35 @@
+{
+  "name": "streetartmap",
+  "version": "1.0.0",
+  "description": "Crowdsourced street art map",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/annaebrown/street_art_map_firebase.git"
+  },
+  "author": "Anna Brown",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/annaebrown/street_art_map_firebase/issues"
+  },
+  "homepage": "https://github.com/annaebrown/street_art_map_firebase#readme",
+  "dependencies": {
+    "babel": "^6.23.0",
+    "babel-loader": "^6.4.0",
+    "firebase": "^3.7.0",
+    "firebase-tools": "^3.4.0",
+    "nodemon": "^1.11.0",
+    "react": "^15.4.2",
+    "react-bootstrap": "^0.30.8",
+    "react-dom": "^15.4.2",
+    "react-google-maps": "^4.11.0",
+    "webpack": "^2.2.1"
+  },
+  "devDependencies": {
+    "babel-preset-stage-2": "^6.22.0"
+  }
+}
