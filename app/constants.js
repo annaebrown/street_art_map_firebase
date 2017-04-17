@@ -1,0 +1,2 @@
+export const GET_ALL_MARKERS = 'GET_ALL_MARKERS';
+export const SELECT_MARKER = 'SELECT_MARKER';

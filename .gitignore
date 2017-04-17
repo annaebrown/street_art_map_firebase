@@ -1,3 +1,6 @@
 # firebase files with keys
 
 firebase/*
+
+#Script with Google Maps API key
+public/index.html
