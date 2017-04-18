@@ -4,110 +4,164 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+var _defineProperty2 = require("babel-runtime/helpers/defineProperty");
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+var _extends2 = require("babel-runtime/helpers/extends");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var _extends3 = _interopRequireDefault(_extends2);
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var _flowRight2 = require("lodash/flowRight");
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+var _flowRight3 = _interopRequireDefault(_flowRight2);
+
+var _contextTypes;
+
+var _invariant = require("invariant");
+
+var _invariant2 = _interopRequireDefault(_invariant);
 
 var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _canUseDom = require("can-use-dom");
+var _reactDom = require("react-dom");
 
-var _canUseDom2 = _interopRequireDefault(_canUseDom);
+var _constants = require("../constants");
 
-var _addonsCreatorsInfoBoxCreator = require("./addonsCreators/InfoBoxCreator");
+var _enhanceElement = require("../enhanceElement");
 
-var _addonsCreatorsInfoBoxCreator2 = _interopRequireDefault(_addonsCreatorsInfoBoxCreator);
+var _enhanceElement2 = _interopRequireDefault(_enhanceElement);
 
-/*
- * Original author: @wuct
- * Original PR: https://github.com/tomchentw/react-google-maps/pull/54
- */
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var InfoBox = (function (_Component) {
-  _inherits(InfoBox, _Component);
+var controlledPropTypes = {
+  // NOTICE!!!!!!
+  //
+  // Only expose those with getters & setters in the table as controlled props.
+  //
+  // http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/docs/reference.html
+  content: _react.PropTypes.any,
+  options: _react.PropTypes.object,
+  position: _react.PropTypes.any,
+  visible: _react.PropTypes.bool,
+  zIndex: _react.PropTypes.number
+};
 
-  function InfoBox() {
-    _classCallCheck(this, InfoBox);
+var defaultUncontrolledPropTypes = (0, _enhanceElement.addDefaultPrefixToPropTypes)(controlledPropTypes);
 
-    _get(Object.getPrototypeOf(InfoBox.prototype), "constructor", this).apply(this, arguments);
+var eventMap = {
+  // http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/docs/reference.html
+  onCloseClick: "closeclick",
 
-    this.state = {};
+  onContentChanged: "content_changed",
+
+  onDomReady: "domready",
+
+  onPositionChanged: "position_changed",
+
+  onZIndexChanged: "zindex_changed"
+};
+
+var publicMethodMap = {
+  // Public APIs
+  //
+  // http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/docs/reference.html
+  getPosition: function getPosition(infoBox) {
+    return infoBox.getPosition();
+  },
+  getVisible: function getVisible(infoBox) {
+    return infoBox.getVisible();
+  },
+  getZIndex: function getZIndex(infoBox) {
+    return infoBox.getZIndex();
   }
+};
 
-  _createClass(InfoBox, [{
-    key: "getContent",
+var controlledPropUpdaterMap = {
+  children: function children(infoWindow, _children, component) {
+    (0, _reactDom.unstable_renderSubtreeIntoContainer)(component, _react.Children.only(_children), infoWindow.getContent());
+  },
+  options: function options(infoBox, _options) {
+    infoBox.setOptions(_options);
+  },
+  position: function position(infoBox, _position) {
+    infoBox.setPosition(_position);
+  },
+  visible: function visible(infoBox, _visible) {
+    infoBox.setVisible(_visible);
+  },
+  zIndex: function zIndex(infoBox, _zIndex) {
+    infoBox.setZIndex(_zIndex);
+  }
+};
 
-    // Public APIs
-    //
+function getInstanceFromComponent(component) {
+  return component.state[_constants.INFO_BOX];
+}
+
+function openInfoBox(context, infoBox) {
+  var map = context[_constants.MAP];
+  var anchor = context[_constants.ANCHOR];
+  if (anchor) {
+    infoBox.open(map, anchor);
+  } else if (infoBox.getPosition()) {
+    infoBox.open(map);
+  } else {
+    (0, _invariant2.default)(false, "You must provide either an anchor (typically a <Marker>) or a position for <InfoBox>.");
+  }
+}
+
+exports.default = (0, _flowRight3.default)(_react2.default.createClass, (0, _enhanceElement2.default)(getInstanceFromComponent, publicMethodMap, eventMap, controlledPropUpdaterMap))({
+  displayName: "InfoBox",
+
+  propTypes: (0, _extends3.default)({}, controlledPropTypes, defaultUncontrolledPropTypes),
+
+  contextTypes: (_contextTypes = {}, (0, _defineProperty3.default)(_contextTypes, _constants.MAP, _react.PropTypes.object), (0, _defineProperty3.default)(_contextTypes, _constants.ANCHOR, _react.PropTypes.object), _contextTypes),
+
+  getInitialState: function getInitialState() {
+    var GoogleMapsInfobox = require(
+    // "google-maps-infobox" uses "google" as a global variable. Since we don't
+    // have "google" on the server, we can not use it in server-side rendering.
+    // As a result, we import "google-maps-infobox" here to prevent an error on
+    // a isomorphic server.
+    "google-maps-infobox");
+    var map = this.context[_constants.MAP];
+    var infoBoxProps = (0, _enhanceElement.collectUncontrolledAndControlledProps)(defaultUncontrolledPropTypes, controlledPropTypes, this.props);
     // http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/docs/reference.html
-    value: function getContent() {/* TODO: children */}
-  }, {
-    key: "getPosition",
-    value: function getPosition() {
-      return this.state.infoBox.getPosition();
+    var infoBox = new GoogleMapsInfobox((0, _extends3.default)({
+      map: map
+    }, infoBoxProps, {
+      // Override props of ReactElement type
+      content: document.createElement("div"),
+      children: undefined
+    }));
+    // BUG: the `GoogleMapsInfobox` does not take infoBoxProps.options
+    // into account in its constructor. Need to manually set
+    infoBox.setOptions(infoBoxProps.options || {});
+
+    openInfoBox(this.context, infoBox);
+    return (0, _defineProperty3.default)({}, _constants.INFO_BOX, infoBox);
+  },
+  componentDidMount: function componentDidMount() {
+    var infoBox = getInstanceFromComponent(this);
+    controlledPropUpdaterMap.children(infoBox, this.props.children, this);
+  },
+  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
+    var anchorChanged = this.context[_constants.ANCHOR] !== nextContext[_constants.ANCHOR];
+    if (anchorChanged) {
+      var infoBox = getInstanceFromComponent(this);
+      openInfoBox(nextContext, infoBox);
     }
-  }, {
-    key: "getVisible",
-    value: function getVisible() {
-      return this.state.infoBox.getVisible();
+  },
+  componentWillUnmount: function componentWillUnmount() {
+    var infoBox = getInstanceFromComponent(this);
+    if (infoBox) {
+      infoBox.setMap(null);
     }
-  }, {
-    key: "getZIndex",
-    value: function getZIndex() {
-      return this.state.infoBox.getZIndex();
-    }
-
-    // END - Public APIs
-    //
-    // http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/docs/reference.html
-
-  }, {
-    key: "componentWillMount",
-    value: function componentWillMount() {
-      if (!_canUseDom2["default"]) {
-        return;
-      }
-      var infoBox = _addonsCreatorsInfoBoxCreator2["default"]._createInfoBox(this.props);
-
-      this.setState({ infoBox: infoBox });
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      if (this.state.infoBox) {
-        return _react2["default"].createElement(
-          _addonsCreatorsInfoBoxCreator2["default"],
-          _extends({ infoBox: this.state.infoBox }, this.props),
-          this.props.children
-        );
-      } else {
-        return _react2["default"].createElement("noscript", null);
-      }
-    }
-  }], [{
-    key: "propTypes",
-    value: _extends({}, _addonsCreatorsInfoBoxCreator.infoBoxDefaultPropTypes, _addonsCreatorsInfoBoxCreator.infoBoxControlledPropTypes, _addonsCreatorsInfoBoxCreator.infoBoxEventPropTypes),
-    enumerable: true
-  }]);
-
-  return InfoBox;
-})(_react.Component);
-
-exports["default"] = InfoBox;
-module.exports = exports["default"];
-
-// Uncontrolled default[props] - used only in componentDidMount
-
-// Controlled [props] - used in componentDidMount/componentDidUpdate
-
-// Event [onEventName]
+  },
+  render: function render() {
+    return false;
+  }
+});

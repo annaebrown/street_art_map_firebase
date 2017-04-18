@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import InitialMap from './InitialMap';
 import {Button} from 'react-bootstrap';
+import {addNewMarker, getAllMarkers} from '../reducers/mapReducer';
 import { 
   withGoogleMap,
   GoogleMap,
@@ -15,30 +16,36 @@ class MapComponent extends Component {
     super(props);
   	
     this.state = {
-        markers: [{
-              position: {
-                lat: 25.0112183,
-                lng: 121.52067570000001,
-              },
-              key: `Taiwan`,
-              defaultAnimation: 2,
-        }],
-      	formValue: ""
-    }
+        markers: []
+    };
 
-    // this.handleMapClick = this.handleMapClick.bind(this);
-    // this.handleMarkerClick = this.handleMarkerClick.bind(this);
+    this.handleMapClick = this.handleMapClick.bind(this);
+    this.handleMapLoad = this.handleMapLoad.bind(this);
+    this.handleMarkerClick = this.handleMarkerClick.bind(this);
     // this.handleMarkerClose = this.handleMarkerClose.bind(this);
     // this.handleChange = this.handleChange.bind(this);
     // this.updatingContent = this.updatingContent.bind(this);
   }
 
+  componentDidMount(){
+    this.props.getMarkers();
+    this.setState({
+      markers: this.props.markers
+    })
+  }
+
   handleMapLoad(map) {
-      this._mapComponent = map;
-      if (map) {
-        console.log(map.getZoom());
-      }
+    this._mapComponent = map;
+    if (map) {
+      console.log(map.getZoom());
     }
+  }
+
+  handleMarkerClick(marker) {
+    this.setState({
+      selectedMarker: marker
+    });
+  }
 
 //   componentDidMount() {
 //     axios.get('/api')
@@ -60,33 +67,17 @@ class MapComponent extends Component {
 //     })
 //   }
 
-//   handleMapClick(event) {
+  handleMapClick(event) {
 
-//     const lat = event.latLng.lat();
-//     const lng = event.latLng.lng();
+    const lat = event.latLng.lat();
+    const lng = event.latLng.lng();
 
-//     axios.post('/api', {'latitude': lat, 'longitude': lng})
-//       .then(response => {
-//         const markerData = response.data;
-//         console.log(response.data)
-//         const nextMarkers = markerData.map(markerObject => {
-//           const latLng = {lat: Number(markerObject.latitude), lng: Number(markerObject.longitude)}
-//           const content = markerObject.content ? markerObject.content : null
-//           return {
-//           id: markerObject.id,
-//           position: latLng,
-//           content: content
-//           }
-//       })
-//       this.setState({
-//         markers: nextMarkers
-//       })
-//     })
-//   }
+    this.props.addNewMarker({latitude: lat, longitude: lng});
+  }
 
-//   handleChange(event) {
-//   	this.setState({formValue: event.target.value})
-//   }
+  // handleChange(event) {
+  // 	this.setState({formValue: event.target.value})
+  // }
 
 
 //   handleMarkerRightClick(targetMarker) {
@@ -162,11 +153,12 @@ class MapComponent extends Component {
           }
           markers={this.props.markers}
           onMapLoad={this.handleMapLoad}
+          onMarkerClick={this.handleMarkerClick}
+          onMapClick={this.handleMapClick}
         />
         {/*
-        //   onMapClick={this.handleMapClick}
+        //   
         //   onMarkerRightClick={this.handleMarkerRightClick}
-          onMarkerClick={this.handleMarkerClick}
           onMarkerClose={this.handleMarkerClose}
         */}
       </div>
@@ -176,11 +168,18 @@ class MapComponent extends Component {
 
 //CONTAINER
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     markers: state.markers
   }
 }
 
-export default connect(mapStateToProps, null)(MapComponent);
+const mapDispatchToProps = dispatch => {
+  return {
+    addNewMarker: marker => dispatch(addNewMarker(marker)),
+    getMarkers: () => dispatch(getAllMarkers())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MapComponent);
 

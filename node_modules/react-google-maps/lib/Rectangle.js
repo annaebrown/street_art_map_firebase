@@ -4,114 +4,141 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+var _defineProperty2 = require("babel-runtime/helpers/defineProperty");
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+var _extends2 = require("babel-runtime/helpers/extends");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var _extends3 = _interopRequireDefault(_extends2);
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var _flowRight2 = require("lodash/flowRight");
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+var _flowRight3 = _interopRequireDefault(_flowRight2);
 
 var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _canUseDom = require("can-use-dom");
+var _constants = require("./constants");
 
-var _canUseDom2 = _interopRequireDefault(_canUseDom);
+var _enhanceElement = require("./enhanceElement");
 
-var _creatorsRectangleCreator = require("./creators/RectangleCreator");
+var _enhanceElement2 = _interopRequireDefault(_enhanceElement);
 
-var _creatorsRectangleCreator2 = _interopRequireDefault(_creatorsRectangleCreator);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/*
- * Original author: @alistairjcbrown
- * Original PR: https://github.com/tomchentw/react-google-maps/pull/80
- */
+var controlledPropTypes = {
+  // NOTICE!!!!!!
+  //
+  // Only expose those with getters & setters in the table as controlled props.
+  //
+  // [].map.call($0.querySelectorAll("tr>td>code", function(it){ return it.textContent; })
+  //    .filter(function(it){ return it.match(/^set/) && !it.match(/^setMap/); })
+  //
+  // https://developers.google.com/maps/documentation/javascript/3.exp/reference#Rectangle
+  bounds: _react.PropTypes.any,
+  draggable: _react.PropTypes.bool,
+  editable: _react.PropTypes.bool,
+  options: _react.PropTypes.object,
+  visible: _react.PropTypes.bool
+}; /* global google */
 
-var Rectangle = (function (_Component) {
-  _inherits(Rectangle, _Component);
 
-  function Rectangle() {
-    _classCallCheck(this, Rectangle);
+var defaultUncontrolledPropTypes = (0, _enhanceElement.addDefaultPrefixToPropTypes)(controlledPropTypes);
 
-    _get(Object.getPrototypeOf(Rectangle.prototype), "constructor", this).apply(this, arguments);
+var eventMap = {
+  // https://developers.google.com/maps/documentation/javascript/3.exp/reference#Rectangle
+  // [].map.call($0.querySelectorAll("tr>td>code"), function(it){ return it.textContent; })
+  onBoundsChanged: "bounds_changed",
 
-    this.state = {};
+  onClick: "click",
+
+  onDblClick: "dblclick",
+
+  onDrag: "drag",
+
+  onDragEnd: "dragend",
+
+  onDragStart: "dragstart",
+
+  onMouseDown: "mousedown",
+
+  onMouseMove: "mousemove",
+
+  onMouseOut: "mouseout",
+
+  onMouseOver: "mouseover",
+
+  onMouseUp: "mouseup",
+
+  onRightClick: "rightclick"
+};
+
+var publicMethodMap = {
+  // Public APIs
+  //
+  // https://developers.google.com/maps/documentation/javascript/3.exp/reference#Rectangle
+  //
+  // [].map.call($0.querySelectorAll("tr>td>code"), function(it){ return it.textContent; })
+  //    .filter(function(it){ return it.match(/^get/) && !it.match(/Map$/); })
+  getBounds: function getBounds(rectangle) {
+    return rectangle.getBounds();
+  },
+  getDraggable: function getDraggable(rectangle) {
+    return rectangle.getDraggable();
+  },
+  getEditable: function getEditable(rectangle) {
+    return rectangle.getEditable();
+  },
+  getVisible: function getVisible(rectangle) {
+    return rectangle.getVisible();
   }
+};
 
-  _createClass(Rectangle, [{
-    key: "getBounds",
+var controlledPropUpdaterMap = {
+  bounds: function bounds(rectangle, _bounds) {
+    rectangle.setBounds(_bounds);
+  },
+  draggable: function draggable(rectangle, _draggable) {
+    rectangle.setDraggable(_draggable);
+  },
+  editable: function editable(rectangle, _editable) {
+    rectangle.setEditable(_editable);
+  },
+  options: function options(rectangle, _options) {
+    rectangle.setOptions(_options);
+  },
+  visible: function visible(rectangle, _visible) {
+    rectangle.setVisible(_visible);
+  }
+};
 
-    // Public APIs
-    //
+function getInstanceFromComponent(component) {
+  return component.state[_constants.RECTANGLE];
+}
+
+exports.default = (0, _flowRight3.default)(_react2.default.createClass, (0, _enhanceElement2.default)(getInstanceFromComponent, publicMethodMap, eventMap, controlledPropUpdaterMap))({
+  displayName: "Rectangle",
+
+  propTypes: (0, _extends3.default)({}, controlledPropTypes, defaultUncontrolledPropTypes),
+
+  contextTypes: (0, _defineProperty3.default)({}, _constants.MAP, _react.PropTypes.object),
+
+  getInitialState: function getInitialState() {
     // https://developers.google.com/maps/documentation/javascript/3.exp/reference#Rectangle
-    //
-    // [].map.call($0.querySelectorAll("tr>td>code"), function(it){ return it.textContent; }).filter(function(it){ return it.match(/^get/) && !it.match(/^getMap/); })
-    value: function getBounds() {
-      return this.state.rectangle.getBounds();
+    var rectangle = new google.maps.Rectangle((0, _extends3.default)({
+      map: this.context[_constants.MAP]
+    }, (0, _enhanceElement.collectUncontrolledAndControlledProps)(defaultUncontrolledPropTypes, controlledPropTypes, this.props)));
+    return (0, _defineProperty3.default)({}, _constants.RECTANGLE, rectangle);
+  },
+  componentWillUnmount: function componentWillUnmount() {
+    var rectangle = getInstanceFromComponent(this);
+    if (rectangle) {
+      rectangle.setMap(null);
     }
-  }, {
-    key: "getDraggable",
-    value: function getDraggable() {
-      return this.state.rectangle.getDraggable();
-    }
-  }, {
-    key: "getEditable",
-    value: function getEditable() {
-      return this.state.rectangle.getEditable();
-    }
-  }, {
-    key: "getVisible",
-    value: function getVisible() {
-      return this.state.rectangle.getVisible();
-    }
-
-    // END - Public APIs
-    //
-    // https://developers.google.com/maps/documentation/javascript/3.exp/reference#Rectangle
-
-  }, {
-    key: "componentWillMount",
-    value: function componentWillMount() {
-      if (!_canUseDom2["default"]) {
-        return;
-      }
-      var rectangle = _creatorsRectangleCreator2["default"]._createRectangle(this.props);
-
-      this.setState({ rectangle: rectangle });
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      if (this.state.rectangle) {
-        return _react2["default"].createElement(
-          _creatorsRectangleCreator2["default"],
-          _extends({ rectangle: this.state.rectangle }, this.props),
-          this.props.children
-        );
-      } else {
-        return _react2["default"].createElement("noscript", null);
-      }
-    }
-  }], [{
-    key: "propTypes",
-    value: _extends({}, _creatorsRectangleCreator.rectangleDefaultPropTypes, _creatorsRectangleCreator.rectangleControlledPropTypes, _creatorsRectangleCreator.rectangleEventPropTypes),
-    enumerable: true
-  }]);
-
-  return Rectangle;
-})(_react.Component);
-
-exports["default"] = Rectangle;
-module.exports = exports["default"];
-
-// Uncontrolled default[props] - used only in componentDidMount
-
-// Controlled [props] - used in componentDidMount/componentDidUpdate
-
-// Event [onEventName]
+  },
+  render: function render() {
+    return false;
+  }
+});

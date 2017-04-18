@@ -4,114 +4,146 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+var _defineProperty2 = require("babel-runtime/helpers/defineProperty");
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+var _extends2 = require("babel-runtime/helpers/extends");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var _extends3 = _interopRequireDefault(_extends2);
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var _flowRight2 = require("lodash/flowRight");
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+var _flowRight3 = _interopRequireDefault(_flowRight2);
 
 var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _canUseDom = require("can-use-dom");
+var _constants = require("./constants");
 
-var _canUseDom2 = _interopRequireDefault(_canUseDom);
+var _enhanceElement = require("./enhanceElement");
 
-var _creatorsPolygonCreator = require("./creators/PolygonCreator");
+var _enhanceElement2 = _interopRequireDefault(_enhanceElement);
 
-var _creatorsPolygonCreator2 = _interopRequireDefault(_creatorsPolygonCreator);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Polygon = (function (_Component) {
-  _inherits(Polygon, _Component);
+var controlledPropTypes = {
+  // NOTICE!!!!!!
+  //
+  // Only expose those with getters & setters in the table as controlled props.
+  //
+  // [].map.call($0.querySelectorAll("tr>td>code", function(it){ return it.textContent; })
+  //    .filter(function(it){ return it.match(/^set/) && !it.match(/^setMap/); })
+  //
+  // https://developers.google.com/maps/documentation/javascript/3.exp/reference#Polygon
+  draggable: _react.PropTypes.bool,
+  editable: _react.PropTypes.bool,
+  options: _react.PropTypes.object,
+  path: _react.PropTypes.any,
+  paths: _react.PropTypes.any,
+  visible: _react.PropTypes.bool
+}; /* global google */
 
-  function Polygon() {
-    _classCallCheck(this, Polygon);
 
-    _get(Object.getPrototypeOf(Polygon.prototype), "constructor", this).apply(this, arguments);
+var defaultUncontrolledPropTypes = (0, _enhanceElement.addDefaultPrefixToPropTypes)(controlledPropTypes);
 
-    this.state = {};
+var eventMap = {
+  // https://developers.google.com/maps/documentation/javascript/3.exp/reference#Polygon
+  // [].map.call($0.querySelectorAll("tr>td>code"), function(it){ return it.textContent; })
+  onClick: "click",
+
+  onDblClick: "dblclick",
+
+  onDrag: "drag",
+
+  onDragEnd: "dragend",
+
+  onDragStart: "dragstart",
+
+  onMouseDown: "mousedown",
+
+  onMouseMove: "mousemove",
+
+  onMouseOut: "mouseout",
+
+  onMouseOver: "mouseover",
+
+  onMouseUp: "mouseup",
+
+  onRightClick: "rightclick"
+};
+
+var publicMethodMap = {
+  // Public APIs
+  //
+  // https://developers.google.com/maps/documentation/javascript/3.exp/reference#Polygon
+  //
+  // [].map.call($0.querySelectorAll("tr>td>code"), function(it){ return it.textContent; })
+  //    .filter(function(it){ return it.match(/^get/) && !it.match(/Map$/); })
+  getDraggable: function getDraggable(polygon) {
+    return polygon.getDraggable();
+  },
+  getEditable: function getEditable(polygon) {
+    return polygon.getEditable();
+  },
+  getPath: function getPath(polygon) {
+    return polygon.getPath();
+  },
+  getPaths: function getPaths(polygon) {
+    return polygon.getPaths();
+  },
+  getVisible: function getVisible(polygon) {
+    return polygon.getVisible();
   }
+};
 
-  _createClass(Polygon, [{
-    key: "getDraggable",
+var controlledPropUpdaterMap = {
+  draggable: function draggable(polygon, _draggable) {
+    polygon.setDraggable(_draggable);
+  },
+  editable: function editable(polygon, _editable) {
+    polygon.setEditable(_editable);
+  },
+  options: function options(polygon, _options) {
+    polygon.setOptions(_options);
+  },
+  path: function path(polygon, _path) {
+    polygon.setPath(_path);
+  },
+  paths: function paths(polygon, _paths) {
+    polygon.setPaths(_paths);
+  },
+  visible: function visible(polygon, _visible) {
+    polygon.setVisible(_visible);
+  }
+};
 
-    // Public APIs
-    //
+function getInstanceFromComponent(component) {
+  return component.state[_constants.POLYGON];
+}
+
+exports.default = (0, _flowRight3.default)(_react2.default.createClass, (0, _enhanceElement2.default)(getInstanceFromComponent, publicMethodMap, eventMap, controlledPropUpdaterMap))({
+  displayName: "Polygon",
+
+  propTypes: (0, _extends3.default)({}, controlledPropTypes, defaultUncontrolledPropTypes),
+
+  contextTypes: (0, _defineProperty3.default)({}, _constants.MAP, _react.PropTypes.object),
+
+  getInitialState: function getInitialState() {
     // https://developers.google.com/maps/documentation/javascript/3.exp/reference#Polygon
-    //
-    // [].map.call($0.querySelectorAll("tr>td>code"), function(it){ return it.textContent; }).filter(function(it){ return it.match(/^get/) && !it.match(/^getMap/); })
-    value: function getDraggable() {
-      return this.state.polygon.getDraggable();
+    var polygon = new google.maps.Polygon((0, _extends3.default)({
+      map: this.context[_constants.MAP]
+    }, (0, _enhanceElement.collectUncontrolledAndControlledProps)(defaultUncontrolledPropTypes, controlledPropTypes, this.props)));
+    return (0, _defineProperty3.default)({}, _constants.POLYGON, polygon);
+  },
+  componentWillUnmount: function componentWillUnmount() {
+    var polygon = getInstanceFromComponent(this);
+    if (polygon) {
+      polygon.setMap(null);
     }
-  }, {
-    key: "getEditable",
-    value: function getEditable() {
-      return this.state.polygon.getEditable();
-    }
-  }, {
-    key: "getPath",
-    value: function getPath() {
-      return this.state.polygon.getPath();
-    }
-  }, {
-    key: "getPaths",
-    value: function getPaths() {
-      return this.state.polygon.getPaths();
-    }
-  }, {
-    key: "getVisible",
-    value: function getVisible() {
-      return this.state.polygon.getVisible();
-    }
-
-    // END - Public APIs
-    //
-    // https://developers.google.com/maps/documentation/javascript/3.exp/reference#Polygon
-
-  }, {
-    key: "componentWillMount",
-    value: function componentWillMount() {
-      if (!_canUseDom2["default"]) {
-        return;
-      }
-      var polygon = _creatorsPolygonCreator2["default"]._createPolygon(this.props);
-
-      this.setState({ polygon: polygon });
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      if (this.state.polygon) {
-        return _react2["default"].createElement(
-          _creatorsPolygonCreator2["default"],
-          _extends({ polygon: this.state.polygon }, this.props),
-          this.props.children
-        );
-      } else {
-        return _react2["default"].createElement("noscript", null);
-      }
-    }
-  }], [{
-    key: "propTypes",
-    value: _extends({}, _creatorsPolygonCreator.polygonDefaultPropTypes, _creatorsPolygonCreator.polygonControlledPropTypes, _creatorsPolygonCreator.polygonEventPropTypes),
-    enumerable: true
-  }]);
-
-  return Polygon;
-})(_react.Component);
-
-exports["default"] = Polygon;
-module.exports = exports["default"];
-
-// Uncontrolled default[props] - used only in componentDidMount
-
-// Controlled [props] - used in componentDidMount/componentDidUpdate
-
-// Event [onEventName]
+  },
+  render: function render() {
+    return false;
+  }
+});

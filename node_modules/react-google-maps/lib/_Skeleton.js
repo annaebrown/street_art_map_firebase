@@ -4,94 +4,86 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+var _defineProperty2 = require("babel-runtime/helpers/defineProperty");
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+var _extends2 = require("babel-runtime/helpers/extends");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var _extends3 = _interopRequireDefault(_extends2);
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var _flowRight2 = require("lodash/flowRight");
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+var _flowRight3 = _interopRequireDefault(_flowRight2);
 
 var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _canUseDom = require("can-use-dom");
+var _constants = require("./constants");
 
-var _canUseDom2 = _interopRequireDefault(_canUseDom);
+var _enhanceElement = require("./enhanceElement");
 
-var _creatorsSkeletonCreator = require("./creators/SkeletonCreator");
+var _enhanceElement2 = _interopRequireDefault(_enhanceElement);
 
-var _creatorsSkeletonCreator2 = _interopRequireDefault(_creatorsSkeletonCreator);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Skeleton = (function (_Component) {
-  _inherits(Skeleton, _Component);
+var controlledPropTypes = {
+  // NOTICE!!!!!!
+  //
+  // Only expose those with getters & setters in the table as controlled props.
+  //
+  // [].map.call($0.querySelectorAll("tr>td>code", function(it){ return it.textContent; })
+  //    .filter(function(it){ return it.match(/^set/) && !it.match(/^setMap/); })
+  //
+  // https://developers.google.com/maps/documentation/javascript/3.exp/reference#Skeleton
+}; /* global google */
 
-  function Skeleton() {
-    _classCallCheck(this, Skeleton);
 
-    _get(Object.getPrototypeOf(Skeleton.prototype), "constructor", this).apply(this, arguments);
+var defaultUncontrolledPropTypes = (0, _enhanceElement.addDefaultPrefixToPropTypes)(controlledPropTypes);
 
-    this.state = {};
+var eventMap = {
+  // https://developers.google.com/maps/documentation/javascript/3.exp/reference#Skeleton
+  // [].map.call($0.querySelectorAll("tr>td>code"), function(it){ return it.textContent; })
+};
+
+var publicMethodMap = {
+  // Public APIs
+  //
+  // https://developers.google.com/maps/documentation/javascript/3.exp/reference#Skeleton
+  //
+  // [].map.call($0.querySelectorAll("tr>td>code"), function(it){ return it.textContent; })
+  //    .filter(function(it){ return it.match(/^get/) && !it.match(/Map$/); })
+  // END - Public APIs
+};
+
+var controlledPropUpdaterMap = {};
+
+function getInstanceFromComponent(component) {
+  return component.state[_constants.SKELETON];
+}
+
+exports.default = (0, _flowRight3.default)(_react2.default.createClass, (0, _enhanceElement2.default)(getInstanceFromComponent, publicMethodMap, eventMap, controlledPropUpdaterMap))({
+  displayName: "Skeleton",
+
+  propTypes: (0, _extends3.default)({}, controlledPropTypes, defaultUncontrolledPropTypes),
+
+  contextTypes: (0, _defineProperty3.default)({}, _constants.MAP, _react.PropTypes.object),
+
+  getInitialState: function getInitialState() {
+    // https://developers.google.com/maps/documentation/javascript/3.exp/reference#Skeleton
+    var skeleton = new google.maps.Skeleton((0, _extends3.default)({
+      map: this.context[_constants.MAP]
+    }, (0, _enhanceElement.collectUncontrolledAndControlledProps)(defaultUncontrolledPropTypes, controlledPropTypes, this.props)));
+    return (0, _defineProperty3.default)({}, _constants.SKELETON, skeleton);
+  },
+  componentWillUnmount: function componentWillUnmount() {
+    var skeleton = getInstanceFromComponent(this);
+    if (skeleton) {
+      skeleton.setMap(null);
+    }
+  },
+  render: function render() {
+    return false;
   }
-
-  _createClass(Skeleton, [{
-    key: "getAnimation",
-
-    // Public APIs
-    //
-    // https://developers.google.com/maps/documentation/javascript/3.exp/reference
-    //
-    // [].map.call($0.querySelectorAll("tr>td>code"), function(it){ return it.textContent; }).filter(function(it){ return it.match(/^get/) && !it.match(/^getMap/); })
-    value: function getAnimation() {
-      return this.state.skeleton.getAnimation();
-    }
-
-    // END - Public APIs
-    //
-    // https://developers.google.com/maps/documentation/javascript/3.exp/reference
-
-  }, {
-    key: "componentWillMount",
-    value: function componentWillMount() {
-      if (!_canUseDom2["default"]) {
-        return;
-      }
-      var skeleton = _creatorsSkeletonCreator2["default"]._createSkeleton(this.props);
-
-      this.setState({ skeleton: skeleton });
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      if (this.state.skeleton) {
-        return _react2["default"].createElement(
-          _creatorsSkeletonCreator2["default"],
-          _extends({ skeleton: this.state.skeleton }, this.props),
-          this.props.children
-        );
-      } else {
-        return _react2["default"].createElement("noscript", null);
-      }
-    }
-  }], [{
-    key: "propTypes",
-    value: _extends({}, _creatorsSkeletonCreator.skeletonDefaultPropTypes, _creatorsSkeletonCreator.skeletonControlledPropTypes, _creatorsSkeletonCreator.skeletonEventPropTypes),
-    enumerable: true
-  }]);
-
-  return Skeleton;
-})(_react.Component);
-
-exports["default"] = Skeleton;
-module.exports = exports["default"];
-
-// Uncontrolled default[props] - used only in componentDidMount
-
-// Controlled [props] - used in componentDidMount/componentDidUpdate
-
-// Event [onEventName]
+});

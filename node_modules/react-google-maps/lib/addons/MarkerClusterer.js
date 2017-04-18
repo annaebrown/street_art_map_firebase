@@ -1,217 +1,256 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+var _defineProperty2 = require("babel-runtime/helpers/defineProperty");
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
-var _get = function get(_x5, _x6, _x7) { var _again = true; _function: while (_again) { var object = _x5, property = _x6, receiver = _x7; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x5 = parent; _x6 = property; _x7 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+var _extends2 = require("babel-runtime/helpers/extends");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+var _extends3 = _interopRequireDefault(_extends2);
 
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+var _flowRight2 = require("lodash/flowRight");
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+var _flowRight3 = _interopRequireDefault(_flowRight2);
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+var _childContextTypes;
 
-var _react = require('react');
+var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _canUseDom = require('can-use-dom');
+var _markerClustererPlus = require("marker-clusterer-plus");
 
-var _canUseDom2 = _interopRequireDefault(_canUseDom);
+var _markerClustererPlus2 = _interopRequireDefault(_markerClustererPlus);
 
-var _addonsCreatorsMarkerClustererCreator = require('./addonsCreators/MarkerClustererCreator');
+var _constants = require("../constants");
 
-var _addonsCreatorsMarkerClustererCreator2 = _interopRequireDefault(_addonsCreatorsMarkerClustererCreator);
+var _enhanceElement = require("../enhanceElement");
 
-var MarkerClusterer = (function (_Component) {
-  _inherits(MarkerClusterer, _Component);
+var _enhanceElement2 = _interopRequireDefault(_enhanceElement);
 
-  function MarkerClusterer() {
-    _classCallCheck(this, MarkerClusterer);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-    _get(Object.getPrototypeOf(MarkerClusterer.prototype), 'constructor', this).apply(this, arguments);
+var controlledPropTypes = {
+  // NOTICE!!!!!!
+  //
+  // Only expose those with getters & setters in the table as controlled props.
+  //
+  // http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclustererplus/docs/reference.html
+  averageCenter: _react.PropTypes.bool,
+  batchSizeIE: _react.PropTypes.number,
+  calculator: _react.PropTypes.func,
+  clusterClass: _react.PropTypes.string,
+  enableRetinaIcons: _react.PropTypes.bool,
+  gridSize: _react.PropTypes.number,
+  ignoreHidden: _react.PropTypes.bool,
+  imageExtension: _react.PropTypes.string,
+  imagePath: _react.PropTypes.string,
+  imageSizes: _react.PropTypes.array,
+  maxZoom: _react.PropTypes.number,
+  minimumClusterSize: _react.PropTypes.number,
+  styles: _react.PropTypes.array,
+  title: _react.PropTypes.string,
+  zoomOnClick: _react.PropTypes.bool
+};
 
-    this.state = {};
+var defaultUncontrolledPropTypes = (0, _enhanceElement.addDefaultPrefixToPropTypes)(controlledPropTypes);
+
+var eventMap = {
+  // http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclustererplus/docs/reference.html
+  onClick: "click",
+
+  onClusteringBegin: "clusteringbegin",
+
+  onClusteringEnd: "clusteringend",
+
+  onMouseOut: "mouseout",
+
+  onMouseOver: "mouseover"
+};
+
+var publicMethodMap = {
+  // Public APIs
+  //
+  // http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclustererplus/docs/reference.html#events
+  getAverageCenter: function getAverageCenter(markerClusterer) {
+    return markerClusterer.getAverageCenter();
+  },
+  getBatchSizeIE: function getBatchSizeIE(markerClusterer) {
+    return markerClusterer.getBatchSizeIE();
+  },
+  getCalculator: function getCalculator(markerClusterer) {
+    return markerClusterer.getCalculator();
+  },
+  getClusterClass: function getClusterClass(markerClusterer) {
+    return markerClusterer.getClusterClass();
+  },
+  getClusters: function getClusters(markerClusterer) {
+    return markerClusterer.getClusters();
+  },
+  getEnableRetinaIcons: function getEnableRetinaIcons(markerClusterer) {
+    return markerClusterer.getEnableRetinaIcons();
+  },
+  getGridSize: function getGridSize(markerClusterer) {
+    return markerClusterer.getGridSize();
+  },
+  getIgnoreHidden: function getIgnoreHidden(markerClusterer) {
+    return markerClusterer.getIgnoreHidden();
+  },
+  getImageExtension: function getImageExtension(markerClusterer) {
+    return markerClusterer.getImageExtension();
+  },
+  getImagePath: function getImagePath(markerClusterer) {
+    return markerClusterer.getImagePath();
+  },
+  getImageSize: function getImageSize(markerClusterer) {
+    return markerClusterer.getImageSize();
+  },
+  getMarkers: function getMarkers(markerClusterer) {
+    return markerClusterer.getMarkers();
+  },
+  getMaxZoom: function getMaxZoom(markerClusterer) {
+    return markerClusterer.getMaxZoom();
+  },
+  getMinimumClusterSize: function getMinimumClusterSize(markerClusterer) {
+    return markerClusterer.getMinimumClusterSize();
+  },
+  getStyles: function getStyles(markerClusterer) {
+    return markerClusterer.getStyles();
+  },
+  getTitle: function getTitle(markerClusterer) {
+    return markerClusterer.getTitle();
+  },
+  getTotalClusters: function getTotalClusters(markerClusterer) {
+    return markerClusterer.getTotalClusters();
+  },
+  getZoomOnClick: function getZoomOnClick(markerClusterer) {
+    return markerClusterer.getZoomOnClick();
+  },
+
+
+  // Public APIs - Use this carefully
+  addMarker: function addMarker(markerClusterer, marker) {
+    var nodraw = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
+    return markerClusterer.addMarker(marker, nodraw);
+  },
+  addMarkers: function addMarkers(markerClusterer, markers) {
+    var nodraw = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
+    return markerClusterer.addMarkers(markers, nodraw);
+  },
+  removeMarker: function removeMarker(markerClusterer, marker) {
+    var nodraw = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
+    return markerClusterer.removeMarker(marker, nodraw);
+  },
+  removeMarkers: function removeMarkers(markerClusterer, markers) {
+    var nodraw = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
+    return markerClusterer.removeMarkers(markers, nodraw);
+  },
+  clearMarkers: function clearMarkers(markerClusterer) {
+    return markerClusterer.clearMarkers();
+  },
+  fitMapToMarkers: function fitMapToMarkers(markerClusterer) {
+    return markerClusterer.fitMapToMarkers();
+  },
+  repaint: function repaint(markerClusterer) {
+    return markerClusterer.repaint();
   }
+};
 
-  _createClass(MarkerClusterer, [{
-    key: 'getAverageCenter',
+var controlledPropUpdaterMap = {
+  averageCenter: function averageCenter(markerClusterer, _averageCenter) {
+    markerClusterer.setAverageCenter(_averageCenter);
+  },
+  batchSizeIE: function batchSizeIE(markerClusterer, _batchSizeIE) {
+    markerClusterer.setBatchSizeIE(_batchSizeIE);
+  },
+  calculator: function calculator(markerClusterer, _calculator) {
+    markerClusterer.setCalculator(_calculator);
+  },
+  enableRetinaIcons: function enableRetinaIcons(markerClusterer, _enableRetinaIcons) {
+    markerClusterer.setEnableRetinaIcons(_enableRetinaIcons);
+  },
+  gridSize: function gridSize(markerClusterer, _gridSize) {
+    markerClusterer.setGridSize(_gridSize);
+  },
+  ignoreHidden: function ignoreHidden(markerClusterer, _ignoreHidden) {
+    markerClusterer.setIgnoreHidden(_ignoreHidden);
+  },
+  imageExtension: function imageExtension(markerClusterer, _imageExtension) {
+    markerClusterer.setImageExtension(_imageExtension);
+  },
+  imagePath: function imagePath(markerClusterer, _imagePath) {
+    markerClusterer.setImagePath(_imagePath);
+  },
+  imageSizes: function imageSizes(markerClusterer, _imageSizes) {
+    markerClusterer.setImageSizes(_imageSizes);
+  },
+  maxZoom: function maxZoom(markerClusterer, _maxZoom) {
+    markerClusterer.setMaxZoom(_maxZoom);
+  },
+  minimumClusterSize: function minimumClusterSize(markerClusterer, _minimumClusterSize) {
+    markerClusterer.setMinimumClusterSize(_minimumClusterSize);
+  },
+  styles: function styles(markerClusterer, _styles) {
+    markerClusterer.setStyles(_styles);
+  },
+  title: function title(markerClusterer, _title) {
+    markerClusterer.setTitle(_title);
+  },
+  zoomOnClick: function zoomOnClick(markerClusterer, _zoomOnClick) {
+    markerClusterer.setZoomOnClick(_zoomOnClick);
+  }
+};
 
-    // Public APIs
+function getInstanceFromComponent(component) {
+  return component.state[_constants.MARKER_CLUSTERER];
+}
+
+exports.default = (0, _flowRight3.default)(_react2.default.createClass, (0, _enhanceElement2.default)(getInstanceFromComponent, publicMethodMap, eventMap, controlledPropUpdaterMap))({
+  displayName: "MarkerClusterer",
+
+  propTypes: (0, _extends3.default)({}, controlledPropTypes, defaultUncontrolledPropTypes),
+
+  contextTypes: (0, _defineProperty3.default)({}, _constants.MAP, _react.PropTypes.object),
+
+  childContextTypes: (_childContextTypes = {}, (0, _defineProperty3.default)(_childContextTypes, _constants.ANCHOR, _react.PropTypes.object), (0, _defineProperty3.default)(_childContextTypes, _constants.MARKER_CLUSTERER, _react.PropTypes.object), _childContextTypes),
+
+  getInitialState: function getInitialState() {
     // http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclustererplus/docs/reference.html#events
-    value: function getAverageCenter() {
-      return this.state.markerClusterer.getAverageCenter();
-    }
-  }, {
-    key: 'getBatchSizeIE',
-    value: function getBatchSizeIE() {
-      return this.state.markerClusterer.getBatchSizeIE();
-    }
-  }, {
-    key: 'getCalculator',
-    value: function getCalculator() {
-      return this.state.markerClusterer.getCalculator();
-    }
-  }, {
-    key: 'getClusterClass',
-    value: function getClusterClass() {
-      return this.state.markerClusterer.getClusterClass();
-    }
-  }, {
-    key: 'getClusters',
-    value: function getClusters() {
-      return this.state.markerClusterer.getClusters();
-    }
-  }, {
-    key: 'getEnableRetinaIcons',
-    value: function getEnableRetinaIcons() {
-      return this.state.markerClusterer.getEnableRetinaIcons();
-    }
-  }, {
-    key: 'getGridSize',
-    value: function getGridSize() {
-      return this.state.markerClusterer.getGridSize();
-    }
-  }, {
-    key: 'getIgnoreHidden',
-    value: function getIgnoreHidden() {
-      return this.state.markerClusterer.getIgnoreHidden();
-    }
-  }, {
-    key: 'getImageExtension',
-    value: function getImageExtension() {
-      return this.state.markerClusterer.getImageExtension();
-    }
-  }, {
-    key: 'getImagePath',
-    value: function getImagePath() {
-      return this.state.markerClusterer.getImagePath();
-    }
-  }, {
-    key: 'getImageSize',
-    value: function getImageSize() {
-      return this.state.markerClusterer.getImageSize();
-    }
-  }, {
-    key: 'getMarkers',
-    value: function getMarkers() {
-      return this.state.markerClusterer.getMarkers();
-    }
-  }, {
-    key: 'getMaxZoom',
-    value: function getMaxZoom() {
-      return this.state.markerClusterer.getMaxZoom();
-    }
-  }, {
-    key: 'getMinimumClusterSize',
-    value: function getMinimumClusterSize() {
-      return this.state.markerClusterer.getMinimumClusterSize();
-    }
-  }, {
-    key: 'getStyles',
-    value: function getStyles() {
-      return this.state.markerClusterer.getStyles();
-    }
-  }, {
-    key: 'getTitle',
-    value: function getTitle() {
-      return this.state.markerClusterer.getTitle();
-    }
-  }, {
-    key: 'getTotalClusters',
-    value: function getTotalClusters() {
-      return this.state.markerClusterer.getTotalClusters();
-    }
-  }, {
-    key: 'getZoomOnClick',
-    value: function getZoomOnClick() {
-      return this.state.markerClusterer.getZoomOnClick();
-    }
+    var markerClusterer = new _markerClustererPlus2.default(this.context[_constants.MAP], [], (0, _enhanceElement.collectUncontrolledAndControlledProps)(defaultUncontrolledPropTypes, controlledPropTypes, this.props));
+    return (0, _defineProperty3.default)({}, _constants.MARKER_CLUSTERER, markerClusterer);
+  },
+  getChildContext: function getChildContext() {
+    var _ref2;
 
-    // Public APIs - Use this carefully
-  }, {
-    key: 'addMarker',
-    value: function addMarker(marker) {
-      var nodraw = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
-      return this.state.markerClusterer.addMarker(marker, nodraw);
+    var markerClusterer = getInstanceFromComponent(this);
+    return _ref2 = {}, (0, _defineProperty3.default)(_ref2, _constants.ANCHOR, markerClusterer), (0, _defineProperty3.default)(_ref2, _constants.MARKER_CLUSTERER, markerClusterer), _ref2;
+  },
+  componentDidUpdate: function componentDidUpdate() {
+    var markerClusterer = getInstanceFromComponent(this);
+    markerClusterer.repaint();
+  },
+  componentWillUnmount: function componentWillUnmount() {
+    var markerClusterer = getInstanceFromComponent(this);
+    if (markerClusterer) {
+      markerClusterer.setMap(null);
     }
-  }, {
-    key: 'addMarkers',
-    value: function addMarkers(markers) {
-      var nodraw = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
-      return this.state.markerClusterer.addMarkers(markers, nodraw);
-    }
-  }, {
-    key: 'removeMarker',
-    value: function removeMarker(marker) {
-      var nodraw = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
-      return this.state.markerClusterer.removeMarker(marker, nodraw);
-    }
-  }, {
-    key: 'removeMarkers',
-    value: function removeMarkers(markers) {
-      var nodraw = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
-      return this.state.markerClusterer.removeMarkers(markers, nodraw);
-    }
-  }, {
-    key: 'clearMarkers',
-    value: function clearMarkers() {
-      return this.state.markerClusterer.clearMarkers();
-    }
-  }, {
-    key: 'fitMapToMarkers',
-    value: function fitMapToMarkers() {
-      return this.state.markerClusterer.fitMapToMarkers();
-    }
-  }, {
-    key: 'repaint',
-    value: function repaint() {
-      return this.state.markerClusterer.repaint();
-    }
-  }, {
-    key: 'componentWillMount',
-    value: function componentWillMount() {
-      if (!_canUseDom2['default']) {
-        return;
-      }
+  },
+  render: function render() {
+    var children = this.props.children;
 
-      var _props = this.props;
-      var mapHolderRef = _props.mapHolderRef;
 
-      var markerClustererProps = _objectWithoutProperties(_props, ['mapHolderRef']);
-
-      var markerClusterer = _addonsCreatorsMarkerClustererCreator2['default']._createMarkerClusterer(mapHolderRef, markerClustererProps);
-
-      this.setState({ markerClusterer: markerClusterer });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      if (this.state.markerClusterer) {
-        return _react2['default'].createElement(
-          _addonsCreatorsMarkerClustererCreator2['default'],
-          _extends({ markerClusterer: this.state.markerClusterer }, this.props),
-          this.props.children
-        );
-      } else {
-        return _react2['default'].createElement('noscript', null);
-      }
-    }
-  }], [{
-    key: 'propTypes',
-    value: _extends({}, _addonsCreatorsMarkerClustererCreator.markerClusterDefaultPropTypes, _addonsCreatorsMarkerClustererCreator.markerClusterControlledPropTypes, _addonsCreatorsMarkerClustererCreator.markerClusterEventPropTypes),
-    enumerable: true
-  }]);
-
-  return MarkerClusterer;
-})(_react.Component);
-
-exports['default'] = MarkerClusterer;
-module.exports = exports['default'];
+    return _react2.default.createElement(
+      "div",
+      null,
+      children
+    );
+  }
+});

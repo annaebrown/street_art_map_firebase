@@ -4,56 +4,112 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-function _interopRequire(obj) { return obj && obj.__esModule ? obj["default"] : obj; }
+var _withGoogleMap = require("./withGoogleMap");
 
-var _GoogleMapLoader = require("./GoogleMapLoader");
-
-exports.GoogleMapLoader = _interopRequire(_GoogleMapLoader);
+Object.defineProperty(exports, "withGoogleMap", {
+  enumerable: true,
+  get: function get() {
+    return _interopRequireDefault(_withGoogleMap).default;
+  }
+});
 
 var _GoogleMap = require("./GoogleMap");
 
-exports.GoogleMap = _interopRequire(_GoogleMap);
-
-var _Circle = require("./Circle");
-
-exports.Circle = _interopRequire(_Circle);
-
-var _DirectionsRenderer = require("./DirectionsRenderer");
-
-exports.DirectionsRenderer = _interopRequire(_DirectionsRenderer);
-
-var _DrawingManager = require("./DrawingManager");
-
-exports.DrawingManager = _interopRequire(_DrawingManager);
-
-var _InfoWindow = require("./InfoWindow");
-
-exports.InfoWindow = _interopRequire(_InfoWindow);
-
-var _KmlLayer = require("./KmlLayer");
-
-exports.KmlLayer = _interopRequire(_KmlLayer);
+Object.defineProperty(exports, "GoogleMap", {
+  enumerable: true,
+  get: function get() {
+    return _interopRequireDefault(_GoogleMap).default;
+  }
+});
 
 var _Marker = require("./Marker");
 
-exports.Marker = _interopRequire(_Marker);
-
-var _OverlayView = require("./OverlayView");
-
-exports.OverlayView = _interopRequire(_OverlayView);
-
-var _Polygon = require("./Polygon");
-
-exports.Polygon = _interopRequire(_Polygon);
-
-var _Polyline = require("./Polyline");
-
-exports.Polyline = _interopRequire(_Polyline);
+Object.defineProperty(exports, "Marker", {
+  enumerable: true,
+  get: function get() {
+    return _interopRequireDefault(_Marker).default;
+  }
+});
 
 var _Rectangle = require("./Rectangle");
 
-exports.Rectangle = _interopRequire(_Rectangle);
+Object.defineProperty(exports, "Rectangle", {
+  enumerable: true,
+  get: function get() {
+    return _interopRequireDefault(_Rectangle).default;
+  }
+});
 
-var _SearchBox = require("./SearchBox");
+var _Polyline = require("./Polyline");
 
-exports.SearchBox = _interopRequire(_SearchBox);
+Object.defineProperty(exports, "Polyline", {
+  enumerable: true,
+  get: function get() {
+    return _interopRequireDefault(_Polyline).default;
+  }
+});
+
+var _Polygon = require("./Polygon");
+
+Object.defineProperty(exports, "Polygon", {
+  enumerable: true,
+  get: function get() {
+    return _interopRequireDefault(_Polygon).default;
+  }
+});
+
+var _Circle = require("./Circle");
+
+Object.defineProperty(exports, "Circle", {
+  enumerable: true,
+  get: function get() {
+    return _interopRequireDefault(_Circle).default;
+  }
+});
+
+var _KmlLayer = require("./KmlLayer");
+
+Object.defineProperty(exports, "KmlLayer", {
+  enumerable: true,
+  get: function get() {
+    return _interopRequireDefault(_KmlLayer).default;
+  }
+});
+
+var _DirectionsRenderer = require("./DirectionsRenderer");
+
+Object.defineProperty(exports, "DirectionsRenderer", {
+  enumerable: true,
+  get: function get() {
+    return _interopRequireDefault(_DirectionsRenderer).default;
+  }
+});
+
+var _HeatmapLayer = require("./HeatmapLayer");
+
+Object.defineProperty(exports, "HeatmapLayer", {
+  enumerable: true,
+  get: function get() {
+    return _interopRequireDefault(_HeatmapLayer).default;
+  }
+});
+
+var _InfoWindow = require("./InfoWindow");
+
+Object.defineProperty(exports, "InfoWindow", {
+  enumerable: true,
+  get: function get() {
+    return _interopRequireDefault(_InfoWindow).default;
+  }
+});
+
+var _OverlayView = require("./OverlayView");
+
+Object.defineProperty(exports, "OverlayView", {
+  enumerable: true,
+  get: function get() {
+    return _interopRequireDefault(_OverlayView).default;
+  }
+});
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

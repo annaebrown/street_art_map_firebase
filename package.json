@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack -w"
+    "build": "webpack -w",
+    "build-css": "node-sass --include-path scss assets/main.scss public/main.css",
+    "watch-css": "nodemon -e scss -x npm run build-css"
   },
   "repository": {
     "type": "git",
@@ -17,19 +19,22 @@
     "url": "https://github.com/annaebrown/street_art_map_firebase/issues"
   },
   "homepage": "https://github.com/annaebrown/street_art_map_firebase#readme",
-  "dependencies": {
+  "devDependencies": {
     "babel": "^6.23.0",
     "babel-loader": "^6.4.0",
+    "babel-preset-stage-2": "^6.22.0",
     "firebase": "^3.7.0",
     "firebase-tools": "^3.4.0",
+    "material-ui": "^0.17.0",
+    "node-sass": "^4.5.2",
     "nodemon": "^1.11.0",
     "react": "^15.4.2",
     "react-bootstrap": "^0.30.8",
     "react-dom": "^15.4.2",
-    "react-google-maps": "^4.11.0",
+    "react-google-maps": "^6.0.1",
+    "react-redux": "^5.0.4",
+    "react-tap-event-plugin": "^2.0.1",
+    "redux-thunk": "^2.2.0",
     "webpack": "^2.2.1"
-  },
-  "devDependencies": {
-    "babel-preset-stage-2": "^6.22.0"
   }
 }

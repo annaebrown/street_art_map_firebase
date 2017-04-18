@@ -4,175 +4,265 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+var _defineProperty2 = require("babel-runtime/helpers/defineProperty");
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+var _extends2 = require("babel-runtime/helpers/extends");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var _extends3 = _interopRequireDefault(_extends2);
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var _flowRight2 = require("lodash/flowRight");
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+var _flowRight3 = _interopRequireDefault(_flowRight2);
+
+var _contextTypes; /* global google */
+
 
 var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _canUseDom = require("can-use-dom");
+var _constants = require("./constants");
 
-var _canUseDom2 = _interopRequireDefault(_canUseDom);
+var _enhanceElement = require("./enhanceElement");
 
-var _creatorsMarkerCreator = require("./creators/MarkerCreator");
+var _enhanceElement2 = _interopRequireDefault(_enhanceElement);
 
-var _creatorsMarkerCreator2 = _interopRequireDefault(_creatorsMarkerCreator);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Marker = (function (_Component) {
-  _inherits(Marker, _Component);
+var controlledPropTypes = {
+  // NOTICE!!!!!!
+  //
+  // Only expose those with getters & setters in the table as controlled props.
+  //
+  // [].map.call($0.querySelectorAll("tr>td>code", function(it){ return it.textContent; })
+  //    .filter(function(it){ return it.match(/^set/) && !it.match(/^setMap/); })
+  //
+  // https://developers.google.com/maps/documentation/javascript/3.exp/reference#Marker
+  animation: _react.PropTypes.any,
 
-  function Marker() {
-    _classCallCheck(this, Marker);
+  attribution: _react.PropTypes.any,
 
-    _get(Object.getPrototypeOf(Marker.prototype), "constructor", this).apply(this, arguments);
+  clickable: _react.PropTypes.bool,
 
-    this.state = {};
+  cursor: _react.PropTypes.string,
+
+  draggable: _react.PropTypes.bool,
+
+  icon: _react.PropTypes.any,
+
+  label: _react.PropTypes.any,
+
+  opacity: _react.PropTypes.number,
+
+  options: _react.PropTypes.object,
+
+  place: _react.PropTypes.any,
+
+  position: _react.PropTypes.any,
+
+  shape: _react.PropTypes.any,
+
+  title: _react.PropTypes.string,
+
+  visible: _react.PropTypes.bool,
+
+  zIndex: _react.PropTypes.number
+};
+
+var defaultUncontrolledPropTypes = (0, _enhanceElement.addDefaultPrefixToPropTypes)(controlledPropTypes);
+
+var eventMap = {
+  // https://developers.google.com/maps/documentation/javascript/3.exp/reference#Marker
+  // [].map.call($0.querySelectorAll("tr>td>code"), function(it){ return it.textContent; })
+  onAnimationChanged: "animation_changed",
+
+  onClick: "click",
+
+  onClickableChanged: "clickable_changed",
+
+  onCursorChanged: "cursor_changed",
+
+  onDblClick: "dblclick",
+
+  onDrag: "drag",
+
+  onDragEnd: "dragend",
+
+  onDraggableChanged: "draggable_changed",
+
+  onDragStart: "dragstart",
+
+  onFlatChanged: "flat_changed",
+
+  onIconChanged: "icon_changed",
+
+  onMouseDown: "mousedown",
+
+  onMouseOut: "mouseout",
+
+  onMouseOver: "mouseover",
+
+  onMouseUp: "mouseup",
+
+  onPositionChanged: "position_changed",
+
+  onRightClick: "rightclick",
+
+  onShapeChanged: "shape_changed",
+
+  onTitleChanged: "title_changed",
+
+  onVisibleChanged: "visible_changed",
+
+  onZindexChanged: "zindex_changed"
+};
+
+var publicMethodMap = {
+  // Public APIs
+  //
+  // https://developers.google.com/maps/documentation/javascript/3.exp/reference#Marker
+  //
+  // [].map.call($0.querySelectorAll("tr>td>code"), function(it){ return it.textContent; })
+  //    .filter(function(it){ return it.match(/^get/) && !it.match(/Map$/); })
+  getAnimation: function getAnimation(marker) {
+    return marker.getAnimation();
+  },
+  getAttribution: function getAttribution(marker) {
+    return marker.getAttribution();
+  },
+  getClickable: function getClickable(marker) {
+    return marker.getClickable();
+  },
+  getCursor: function getCursor(marker) {
+    return marker.getCursor();
+  },
+  getDraggable: function getDraggable(marker) {
+    return marker.getDraggable();
+  },
+  getIcon: function getIcon(marker) {
+    return marker.getIcon();
+  },
+  getLabel: function getLabel(marker) {
+    return marker.getLabel();
+  },
+  getOpacity: function getOpacity(marker) {
+    return marker.getOpacity();
+  },
+  getPlace: function getPlace(marker) {
+    return marker.getPlace();
+  },
+  getPosition: function getPosition(marker) {
+    return marker.getPosition();
+  },
+  getShape: function getShape(marker) {
+    return marker.getShape();
+  },
+  getTitle: function getTitle(marker) {
+    return marker.getTitle();
+  },
+  getVisible: function getVisible(marker) {
+    return marker.getVisible();
+  },
+  getZIndex: function getZIndex(marker) {
+    return marker.getZIndex();
   }
+};
 
-  _createClass(Marker, [{
-    key: "getAnimation",
+var controlledPropUpdaterMap = {
+  animation: function animation(marker, _animation) {
+    marker.setAnimation(_animation);
+  },
+  attribution: function attribution(marker, _attribution) {
+    marker.setAttribution(_attribution);
+  },
+  clickable: function clickable(marker, _clickable) {
+    marker.setClickable(_clickable);
+  },
+  cursor: function cursor(marker, _cursor) {
+    marker.setCursor(_cursor);
+  },
+  draggable: function draggable(marker, _draggable) {
+    marker.setDraggable(_draggable);
+  },
+  icon: function icon(marker, _icon) {
+    marker.setIcon(_icon);
+  },
+  label: function label(marker, _label) {
+    marker.setLabel(_label);
+  },
+  opacity: function opacity(marker, _opacity) {
+    marker.setOpacity(_opacity);
+  },
+  options: function options(marker, _options) {
+    marker.setOptions(_options);
+  },
+  place: function place(marker, _place) {
+    marker.setPlace(_place);
+  },
+  position: function position(marker, _position) {
+    marker.setPosition(_position);
+  },
+  shape: function shape(marker, _shape) {
+    marker.setShape(_shape);
+  },
+  title: function title(marker, _title) {
+    marker.setTitle(_title);
+  },
+  visible: function visible(marker, _visible) {
+    marker.setVisible(_visible);
+  },
+  zIndex: function zIndex(marker, _zIndex) {
+    marker.setZIndex(_zIndex);
+  }
+};
 
-    // Public APIs
-    //
+function getInstanceFromComponent(component) {
+  return component.state[_constants.MARKER];
+}
+
+exports.default = (0, _flowRight3.default)(_react2.default.createClass, (0, _enhanceElement2.default)(getInstanceFromComponent, publicMethodMap, eventMap, controlledPropUpdaterMap))({
+  displayName: "Marker",
+
+  propTypes: (0, _extends3.default)({}, controlledPropTypes, defaultUncontrolledPropTypes),
+
+  contextTypes: (_contextTypes = {}, (0, _defineProperty3.default)(_contextTypes, _constants.MAP, _react.PropTypes.object), (0, _defineProperty3.default)(_contextTypes, _constants.MARKER_CLUSTERER, _react.PropTypes.object), _contextTypes),
+
+  childContextTypes: (0, _defineProperty3.default)({}, _constants.ANCHOR, _react.PropTypes.object),
+
+  getInitialState: function getInitialState() {
     // https://developers.google.com/maps/documentation/javascript/3.exp/reference#Marker
-    //
-    // [].map.call($0.querySelectorAll("tr>td>code"), function(it){ return it.textContent; }).filter(function(it){ return it.match(/^get/) && !it.match(/Map$/); })
-    value: function getAnimation() {
-      return this.state.marker.getAnimation();
+    var marker = new google.maps.Marker((0, _enhanceElement.collectUncontrolledAndControlledProps)(defaultUncontrolledPropTypes, controlledPropTypes, this.props));
+    var markerClusterer = this.context[_constants.MARKER_CLUSTERER];
+    if (markerClusterer) {
+      markerClusterer.addMarker(marker);
+    } else {
+      marker.setMap(this.context[_constants.MAP]);
     }
-  }, {
-    key: "getAttribution",
-    value: function getAttribution() {
-      return this.state.marker.getAttribution();
-    }
-  }, {
-    key: "getClickable",
-    value: function getClickable() {
-      return this.state.marker.getClickable();
-    }
-  }, {
-    key: "getCursor",
-    value: function getCursor() {
-      return this.state.marker.getCursor();
-    }
-  }, {
-    key: "getDraggable",
-    value: function getDraggable() {
-      return this.state.marker.getDraggable();
-    }
-  }, {
-    key: "getIcon",
-    value: function getIcon() {
-      return this.state.marker.getIcon();
-    }
-  }, {
-    key: "getLabel",
-    value: function getLabel() {
-      return this.state.marker.getLabel();
-    }
-  }, {
-    key: "getOpacity",
-    value: function getOpacity() {
-      return this.state.marker.getOpacity();
-    }
-  }, {
-    key: "getPlace",
-    value: function getPlace() {
-      return this.state.marker.getPlace();
-    }
-  }, {
-    key: "getPosition",
-    value: function getPosition() {
-      return this.state.marker.getPosition();
-    }
-  }, {
-    key: "getShape",
-    value: function getShape() {
-      return this.state.marker.getShape();
-    }
-  }, {
-    key: "getTitle",
-    value: function getTitle() {
-      return this.state.marker.getTitle();
-    }
-  }, {
-    key: "getVisible",
-    value: function getVisible() {
-      return this.state.marker.getVisible();
-    }
-  }, {
-    key: "getZIndex",
-    value: function getZIndex() {
-      return this.state.marker.getZIndex();
-    }
-
-    // END - Public APIs
-    //
-    // https://developers.google.com/maps/documentation/javascript/3.exp/reference#Marker
-
-  }, {
-    key: "componentWillMount",
-    value: function componentWillMount() {
-      if (!_canUseDom2["default"]) {
-        return;
+    return (0, _defineProperty3.default)({}, _constants.MARKER, marker);
+  },
+  getChildContext: function getChildContext() {
+    return (0, _defineProperty3.default)({}, _constants.ANCHOR, this.context[_constants.ANCHOR] || getInstanceFromComponent(this));
+  },
+  componentWillUnmount: function componentWillUnmount() {
+    var marker = getInstanceFromComponent(this);
+    if (marker) {
+      var markerClusterer = this.context[_constants.MARKER_CLUSTERER];
+      if (markerClusterer) {
+        markerClusterer.removeMarker(marker);
       }
-      var marker = _creatorsMarkerCreator2["default"]._createMarker(this.props);
-
-      this.setState({ marker: marker });
+      marker.setMap(null);
     }
-  }, {
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {
-      if (!_canUseDom2["default"]) {
-        return;
-      }
+  },
+  render: function render() {
+    var children = this.props.children;
 
-      var anchorHolderRef = this.props.anchorHolderRef;
-      var marker = this.state.marker;
 
-      if (anchorHolderRef) {
-        if ("MarkerClusterer" === anchorHolderRef.getAnchorType()) {
-          anchorHolderRef.getAnchor().removeMarker(marker);
-        }
-      }
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      if (this.state.marker) {
-        return _react2["default"].createElement(
-          _creatorsMarkerCreator2["default"],
-          _extends({ marker: this.state.marker }, this.props),
-          this.props.children
-        );
-      } else {
-        return _react2["default"].createElement("noscript", null);
-      }
-    }
-  }], [{
-    key: "propTypes",
-    value: _extends({}, _creatorsMarkerCreator.markerDefaultPropTypes, _creatorsMarkerCreator.markerControlledPropTypes, _creatorsMarkerCreator.markerEventPropTypes),
-    enumerable: true
-  }]);
-
-  return Marker;
-})(_react.Component);
-
-exports["default"] = Marker;
-module.exports = exports["default"];
-
-// Uncontrolled default[props] - used only in componentDidMount
-
-// Controlled [props] - used in componentDidMount/componentDidUpdate
-
-// Event [onEventName]
+    return _react2.default.createElement(
+      "div",
+      null,
+      children
+    );
+  }
+});

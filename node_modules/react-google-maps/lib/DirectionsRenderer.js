@@ -4,109 +4,112 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+var _defineProperty2 = require("babel-runtime/helpers/defineProperty");
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+var _extends2 = require("babel-runtime/helpers/extends");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var _extends3 = _interopRequireDefault(_extends2);
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var _flowRight2 = require("lodash/flowRight");
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+var _flowRight3 = _interopRequireDefault(_flowRight2);
 
 var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _canUseDom = require("can-use-dom");
+var _constants = require("./constants");
 
-var _canUseDom2 = _interopRequireDefault(_canUseDom);
+var _enhanceElement = require("./enhanceElement");
 
-var _creatorsDirectionsRendererCreator = require("./creators/DirectionsRendererCreator");
+var _enhanceElement2 = _interopRequireDefault(_enhanceElement);
 
-var _creatorsDirectionsRendererCreator2 = _interopRequireDefault(_creatorsDirectionsRendererCreator);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/*
- * Original author: @alexishevia
- * Original PR: https://github.com/tomchentw/react-google-maps/pull/22
- */
+var controlledPropTypes = {
+  // NOTICE!!!!!!
+  //
+  // Only expose those with getters & setters in the table as controlled props.
+  //
+  // [].map.call($0.querySelectorAll("tr>td>code", function(it){ return it.textContent; })
+  //    .filter(function(it){ return it.match(/^set/) && !it.match(/^setMap/); })
+  //
+  // https://developers.google.com/maps/documentation/javascript/3.exp/reference#DirectionsRenderer
+  directions: _react.PropTypes.any,
+  options: _react.PropTypes.object,
+  panel: _react.PropTypes.object,
+  routeIndex: _react.PropTypes.number
+}; /* global google */
 
-var DirectionsRenderer = (function (_Component) {
-  _inherits(DirectionsRenderer, _Component);
 
-  function DirectionsRenderer() {
-    _classCallCheck(this, DirectionsRenderer);
+var defaultUncontrolledPropTypes = (0, _enhanceElement.addDefaultPrefixToPropTypes)(controlledPropTypes);
 
-    _get(Object.getPrototypeOf(DirectionsRenderer.prototype), "constructor", this).apply(this, arguments);
+var eventMap = {
+  // https://developers.google.com/maps/documentation/javascript/3.exp/reference#DirectionsRenderer
+  // [].map.call($0.querySelectorAll("tr>td>code"), function(it){ return it.textContent; })
+  onDirectionsChanged: "directions_changed"
+};
 
-    this.state = {};
+var publicMethodMap = {
+  // Public APIs
+  //
+  // https://developers.google.com/maps/documentation/javascript/3.exp/reference#DirectionsRenderer
+  //
+  // [].map.call($0.querySelectorAll("tr>td>code"), function(it){ return it.textContent; })
+  //    .filter(function(it){ return it.match(/^get/) && !it.match(/Map$/); })
+  getDirections: function getDirections(directionsRenderer) {
+    return directionsRenderer.getDirections();
+  },
+  getPanel: function getPanel(directionsRenderer) {
+    return directionsRenderer.getPanel();
+  },
+  getRouteIndex: function getRouteIndex(directionsRenderer) {
+    return directionsRenderer.getRouteIndex();
   }
+};
 
-  _createClass(DirectionsRenderer, [{
-    key: "getDirections",
+var controlledPropUpdaterMap = {
+  directions: function directions(directionsRenderer, _directions) {
+    directionsRenderer.setDirections(_directions);
+  },
+  options: function options(directionsRenderer, _options) {
+    directionsRenderer.setOptions(_options);
+  },
+  panel: function panel(directionsRenderer, _panel) {
+    directionsRenderer.setPanel(_panel);
+  },
+  routeIndex: function routeIndex(directionsRenderer, _routeIndex) {
+    directionsRenderer.setRouteIndex(_routeIndex);
+  }
+};
 
-    // Public APIs
-    //
+function getInstanceFromComponent(component) {
+  return component.state[_constants.DIRECTIONS_RENDERER];
+}
+
+exports.default = (0, _flowRight3.default)(_react2.default.createClass, (0, _enhanceElement2.default)(getInstanceFromComponent, publicMethodMap, eventMap, controlledPropUpdaterMap))({
+  displayName: "DirectionsRenderer",
+
+  propTypes: (0, _extends3.default)({}, controlledPropTypes, defaultUncontrolledPropTypes),
+
+  contextTypes: (0, _defineProperty3.default)({}, _constants.MAP, _react.PropTypes.object),
+
+  getInitialState: function getInitialState() {
     // https://developers.google.com/maps/documentation/javascript/3.exp/reference#DirectionsRenderer
-    //
-    // [].map.call($0.querySelectorAll("tr>td>code"), function(it){ return it.textContent; }).filter(function(it){ return it.match(/^get/) && !it.match(/^getMap/); })
-    value: function getDirections() {
-      return this.state.directionsRenderer.getDirections();
+    var directionsRenderer = new google.maps.DirectionsRenderer((0, _extends3.default)({
+      map: this.context[_constants.MAP]
+    }, (0, _enhanceElement.collectUncontrolledAndControlledProps)(defaultUncontrolledPropTypes, controlledPropTypes, this.props)));
+    return (0, _defineProperty3.default)({}, _constants.DIRECTIONS_RENDERER, directionsRenderer);
+  },
+  componentWillUnmount: function componentWillUnmount() {
+    var directionsRenderer = getInstanceFromComponent(this);
+    if (directionsRenderer) {
+      directionsRenderer.setMap(null);
     }
-  }, {
-    key: "getPanel",
-    value: function getPanel() {
-      return this.state.directionsRenderer.getPanel();
-    }
-  }, {
-    key: "getRouteIndex",
-    value: function getRouteIndex() {
-      return this.state.directionsRenderer.getRouteIndex();
-    }
-
-    // END - Public APIs
-    //
-    // https://developers.google.com/maps/documentation/javascript/3.exp/reference#DirectionsRenderer
-
-  }, {
-    key: "componentWillMount",
-    value: function componentWillMount() {
-      if (!_canUseDom2["default"]) {
-        return;
-      }
-      var directionsRenderer = _creatorsDirectionsRendererCreator2["default"]._createDirectionsRenderer(this.props);
-
-      this.setState({ directionsRenderer: directionsRenderer });
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      if (this.state.directionsRenderer) {
-        return _react2["default"].createElement(
-          _creatorsDirectionsRendererCreator2["default"],
-          _extends({ directionsRenderer: this.state.directionsRenderer }, this.props),
-          this.props.children
-        );
-      } else {
-        return _react2["default"].createElement("noscript", null);
-      }
-    }
-  }], [{
-    key: "propTypes",
-    value: _extends({}, _creatorsDirectionsRendererCreator.directionsRendererDefaultPropTypes, _creatorsDirectionsRendererCreator.directionsRendererControlledPropTypes, _creatorsDirectionsRendererCreator.directionsRendererEventPropTypes),
-    enumerable: true
-  }]);
-
-  return DirectionsRenderer;
-})(_react.Component);
-
-exports["default"] = DirectionsRenderer;
-module.exports = exports["default"];
-
-// Uncontrolled default[props] - used only in componentDidMount
-
-// Controlled [props] - used in componentDidMount/componentDidUpdate
-
-// Event [onEventName]
+  },
+  render: function render() {
+    return false;
+  }
+});

@@ -4,9 +4,10 @@ import LandingPage from './components/LandingPage';
 import {Provider} from 'react-redux';
 import store from './store';
 
+
 render (
 	<Provider store={store}>
-		<LandingPage/>
+		<LandingPage />
 	</Provider>,
 	document.getElementById('main')
 );

@@ -36,11 +36,13 @@ const InitialMap = withGoogleMap(props => (
     defaultZoom={14}
     defaultCenter={{ lat: 40.6944, lng: -73.9213 }}
     defaultOptions={{ styles: fancyStyles }}
+    onClick={(evt) => props.onMapClick(evt)}
   >
     {props.markers ? props.markers.map((marker, index) => {
       return <Marker
         key={index}
-        position={marker.position}
+        position={{lat: marker.latitude, lng: marker.longitude}}
+        onClick={() => props.onMarkerClick(marker)}
       />
     }) : null}
   </GoogleMap>

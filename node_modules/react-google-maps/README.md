@@ -4,191 +4,247 @@
 [![Version][npm-image]][npm-url] [![Travis CI][travis-image]][travis-url] [![Quality][codeclimate-image]][codeclimate-url] [![Coverage][codeclimate-coverage-image]][codeclimate-coverage-url] [![Dependencies][gemnasium-image]][gemnasium-url] [![Gitter][gitter-image]][gitter-url]
 
 
-## Quick start: SimpleMap
+## Under development for [v6.0.0](https://github.com/tomchentw/react-google-maps/issues/318)
 
-Declare your Google Maps components using React components.
+Try it via:
 
-```js
-import {GoogleMapLoader, GoogleMap, Marker} from "react-google-maps";
-
-export default function SimpleMap (props) {
-  return (
-    <section style={{height: "100%"}}>
-      <GoogleMapLoader
-        containerElement={
-          <div
-            {...props.containerElementProps}
-            style={{
-              height: "100%",
-            }}
-          />
-        }
-        googleMapElement={
-          <GoogleMap
-            ref={(map) => console.log(map)}
-            defaultZoom={3}
-            defaultCenter={{ lat: -25.363882, lng: 131.044922 }}
-            onClick={props.onMapClick}
-          >
-            {props.markers.map((marker, index) => {
-              return (
-                <Marker
-                  {...marker}
-                  onRightclick={() => props.onMarkerRightclick(index)} />
-              );
-            })}
-          </GoogleMap>
-        }
-      />
-    </section>
-  );
-}
+```sh
+npm install --save react-google-maps@beta
 ```
+
+
+## Call for maintainers
+
+As the author ([tomchentw][tomchentw]) currently doesn't actively use this module, he's looking for awesome contributors to help and keep the community healthy. Please don't hesitate to [contact him][tomchentw] directly. See [#266][call-for-maintainers] for more information.
 
 
 ## Documentation
 
-### Rule 1
+Basically just a simple wrapper around [Google Maps Javascript API][Google Maps Javascript API]. Also check out the [demo][demo] app and it's source under [src/app][src_app] folder.
 
-Define `<GoogleMap>` component in the top level. Use `containerProps`, `containerTagName` to customize the wrapper DOM for the component.
+**Note**: this doc is under development for [v6.0.0](https://github.com/tomchentw/react-google-maps/issues/318). Find docs for [v5.x][docs_v5] and [v4.x][docs_v4] with the git tags.
 
-Other components like `<Marker>` belong to the children of `<GoogleMap>`. You already know this from the example code above.
+### withGoogleMap
 
-### Rule 2
+```jsx
+import { withGoogleMap } from "react-google-maps";
 
-Everything in the `Methods` table in the [official documentation](https://developers.google.com/maps/documentation/javascript/3.exp/reference#Marker) of the component could be set directly via component's *props* . For example, a `<Marker>` component has the following *props*:
-
+// Wrap all `react-google-maps` components with `withGoogleMap` HOC
+// and name it GettingStartedGoogleMap
+const GettingStartedGoogleMap = withGoogleMap(props => (
+  <GoogleMap
+    ref={props.onMapLoad}
+    defaultZoom={3}
+    defaultCenter={{ lat: -25.363882, lng: 131.044922 }}
+    onClick={props.onMapClick}
+  >
+    {props.markers.map((marker, index) => (
+      <Marker
+        {...marker}
+        onRightClick={() => props.onMarkerRightClick(index)}
+      />
+    ))}
+  </GoogleMap>
+));
+// Then, render it:
+render(
+  <GettingStartedGoogleMap
+    containerElement={
+      <div style={{ height: `100%` }} />
+    }
+    mapElement={
+      <div style={{ height: `100%` }} />
+    }
+    onMapLoad={_.noop}
+    onMapClick={_.noop}
+    markers={markers}
+    onMarkerRightClick={_.noop}
+  />,
+  document.getElementById('root')
+);
 ```
-animation, attribution, clickable, cursor, draggable, icon, label, opacity, options, place, position, shape, title, visible, zIndex
-```
 
-### Rule 3
+### GoogleMap
 
-Every props mentioned in __Rule 2__ could be either [controlled](https://facebook.github.io/react/docs/forms.html#controlled-components) or [uncontrolled](https://facebook.github.io/react/docs/forms.html#uncontrolled-components) property. Free to use either one depends on your use case.
-
-### Rule 4
-
-Anything that is inside components' `options` property can __ONLY__ be accessible via `props.options`. It's your responsibility to manage the `props.options` object during the React lifetime of your component. My suggestion is, always use __Rule 3__ if possible. Only use `options` when it's necessary.
-
-### Rule 5
-
-Event handlers on these components can be bound using React component convention. There's a list of event names that exist in the `eventLists` folder. Find the supported event name and use the form of `on${ camelizedEventName }`. For example, If I want to add `center_changed` callback to a map instance, I'll do the following with `react-google-maps`:
-
-```js
+```jsx
 <GoogleMap
-  // onCenterChanged: on + camelizedEventName(center_change)
-  onCenterChanged={this.handleCenterChanged}
+  onClick={_.noop}
+  onRightClick={_.noop}
+  onDragStart={_.noop}
 />
 ```
 
-The list of event names can be found [here](https://github.com/tomchentw/react-google-maps/blob/master/src/eventLists/GoogleMapEventList.js).
+### Marker
 
-### Check the examples
-
-Static hosted [demo site][demo] on GitHub. The code is located under [examples/gh-pages][examples_gh_pages] folder.
-
-
-## Usage
-
-`react-google-maps` requires __React >= 0.14__
-
-```sh
-npm install --save react-google-maps
+```jsx
+<Marker
+  onClick={_.noop}
+  onRightClick={_.noop}
+  onDragStart={_.noop}
+/>
 ```
 
-All components are available on the top-level export.
+### Circle
 
-```js
-import { GoogleMap, Marker, SearchBox } from "react-google-maps";
+```jsx
+<Circle
+  onClick={_.noop}
+  onRightClick={_.noop}
+  onDragStart={_.noop}
+/>
 ```
 
-### Trigger events
+### Rectangle
 
-`triggerEvent(component, ...args)`: One common event trigger is to resize map after the size of the container div change.
-
-```js
-import {triggerEvent} from "react-google-maps/lib/utils";
-
-function handleWindowResize () {
-  triggerEvent(this._googleMapComponent, "resize");
-}
-// and you'll get `this._googleMapComponent` like this:
-<GoogleMap ref={it => this._googleMapComponent = it} />
+```jsx
+<Rectangle
+  onClick={_.noop}
+  onRightClick={_.noop}
+  onDragStart={_.noop}
+/>
 ```
 
-### Optimize bundle size
+### Polyline
 
-You could of course import from individual modules to save your [webpack][webpack]'s bundle size.
-
-```js
-import GoogleMap from "react-google-maps/lib/GoogleMap"; // Or import {default as GoogleMap} ...
+```jsx
+<Polyline
+  onClick={_.noop}
+  onRightClick={_.noop}
+  onDragStart={_.noop}
+/>
 ```
 
-### Additional Addons
+### Polygon
 
-Some addons component could __ONLY__ be accessible via direct import:
-
-```js
-import InfoBox from "react-google-maps/lib/addons/InfoBox";
+```jsx
+<Polygon
+  onClick={_.noop}
+  onRightClick={_.noop}
+  onDragStart={_.noop}
+/>
 ```
 
+### KmlLayer
+
+```jsx
+<KmlLayer
+  onClick={_.noop}
+  onDefaultViewportChanged={_.noop}
+  onStatusChanged={_.noop}
+/>
+```
+
+### InfoWindow
+
+```jsx
+<InfoWindow
+  onCloseClick={_.noop}
+  onDomReady={_.noop}
+  onZIndexChanged={_.noop}
+/>
+```
+
+### drawing/DrawingManager
+
+```jsx
+<DrawingManager
+  onCircleComplete={_.noop}
+  onOverlayComplete={_.noop}
+/>
+```
+
+### places/SearchBox
+
+```jsx
+<SearchBox
+  inputPlaceholder="Customized your placeholder"
+  inputStyle={INPUT_STYLE}
+/>
+```
+
+### addons/MarkerClusterer
+
+```jsx
+<MarkerClusterer
+  onClusteringBegin={_.noop}
+  onMouseOut={_.noop}
+/>
+```
+
+### addons/InfoBox
+
+```jsx
+<InfoBox
+  onCloseClick={_.noop}
+  onDomReady={_.noop}
+  onZIndexChanged={_.noop}
+/>
+```
+
+### async/withScriptjs
+
+```jsx
+import { withGoogleMap } from "react-google-maps";
+import withScriptjs from "react-google-maps/lib/async/withScriptjs";
+
+// Wrap all `react-google-maps` components with `withGoogleMap` HOC
+// then wraps it into `withScriptjs` HOC
+// It loads Google Maps JavaScript API v3 for you asynchronously.
+// Name the component AsyncGettingStartedExampleGoogleMap
+const AsyncGettingStartedExampleGoogleMap = withScriptjs(
+  withGoogleMap(
+    props => (
+    <GoogleMap
+      ref={props.onMapLoad}
+      defaultZoom={3}
+      defaultCenter={{ lat: -25.363882, lng: 131.044922 }}
+      onClick={props.onMapClick}
+    >
+      {props.markers.map(marker => (
+        <Marker
+          {...marker}
+          onRightClick={() => props.onMarkerRightClick(marker)}
+        />
+      ))}
+    </GoogleMap>
+  )
+);
+// Then, render it:
+render(
+  <AsyncGettingStartedExampleGoogleMap
+    googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp"
+    loadingElement={
+      <div style={{ height: `100%` }}>
+        <FaSpinner
+          style={{
+            display: `block`,
+            width: `80px`,
+            height: `80px`,
+            margin: `150px auto`,
+            animation: `fa-spin 2s infinite linear`,
+          }}
+        />
+      </div>
+    }
+    containerElement={
+      <div style={{ height: `100%` }} />
+    }
+    mapElement={
+      <div style={{ height: `100%` }} />
+    }
+    onMapLoad={_.noop}
+    onMapClick={_.noop}
+    markers={markers}
+    onMarkerRightClick={_.noop}
+  />,
+  document.getElementById('root')
+);
+```
 
 ## Changelog
 
 The changelog is automatically generated via [conventional-changelog][conventional-changelog] and [can be found in project root](https://github.com/tomchentw/react-google-maps/blob/master/CHANGELOG.md) as well as npm tarball.
 
-
-## Development
-
-First, clone the project.
-
-```shell
-git clone ...
-```
-
-### With Docker
-
-Install `docker@^1.8.2`, `docker-compose@^1.4.0` and optionally `docker-machine@^0.4.1`. Then,
-
-```shell
-docker-compose run --service-ports web
-```
-
-Then open [http://192.168.59.103:8080](http://192.168.59.103:8080).
-
-**192.168.59.103** is actually your ip from `docker-machine ip`.
-
-If you change code in your local, you'll need to rebuild the image to make changes happen.
-
-If you're previously using `boot2docker`, you may want to migrate to [docker-machine](https://docs.docker.com/machine/migrate-to-machine/) instead.
-
-```shell
-docker-compose build
-```
-
-### Without Docker
-
-Install `node`. Then,
-
-```shell
-npm install
-cd examples/gh-pages
-npm install
-npm start
-```
-
-Then open [http://localhost:8080/webpack-dev-server/](http://localhost:8080/webpack-dev-server/).
-
-
-## Contributing
-
-[![devDependency Status][david-dm-image]][david-dm-url]
-
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
 
 
 [npm-image]: https://img.shields.io/npm/v/react-google-maps.svg?style=flat-square
@@ -204,11 +260,13 @@ Then open [http://localhost:8080/webpack-dev-server/](http://localhost:8080/webp
 [gemnasium-url]: https://gemnasium.com/tomchentw/react-google-maps
 [gitter-image]: https://badges.gitter.im/Join%20Chat.svg
 [gitter-url]: https://gitter.im/tomchentw/react-google-maps?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
-[david-dm-image]: https://img.shields.io/david/dev/tomchentw/react-google-maps.svg?style=flat-square
-[david-dm-url]: https://david-dm.org/tomchentw/react-google-maps#info=devDependencies
 
 
-[demo]: http://tomchentw.github.io/react-google-maps/
-[examples_gh_pages]: https://github.com/tomchentw/react-google-maps/tree/master/examples/gh-pages
-[webpack]: http://webpack.github.io/docs/tutorials/getting-started/
+[tomchentw]: https://github.com/tomchentw
+[call-for-maintainers]: https://github.com/tomchentw/react-google-maps/issues/266
+[demo]: https://tomchentw.github.io/react-google-maps/
+[src_app]: https://github.com/tomchentw/react-google-maps/tree/master/src/app
+[Google Maps Javascript API]: https://developers.google.com/maps/documentation/javascript/
 [conventional-changelog]: https://github.com/ajoslin/conventional-changelog
+[docs_v5]: https://github.com/tomchentw/react-google-maps/tree/v5.1.0#documentation
+[docs_v4]: https://github.com/tomchentw/react-google-maps/tree/v4.11.0#documentation
