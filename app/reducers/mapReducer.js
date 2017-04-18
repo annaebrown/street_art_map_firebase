@@ -55,8 +55,8 @@ export default (state = initialState, action) => {
 
 export const getAllMarkers = () => {
 	return dispatch => {
-		firebase.database().ref('markers')
-		.once('value')
+		firebase.database().ref('markers') //create a new object that has markers inside
+		.once('value') //once a value is retrieved, create a snapshot and then grab the val() property off of it
 		.then(snapshot => {
 			const markerObjects = snapshot.val();
 			const markers = [];
@@ -69,7 +69,7 @@ export const getAllMarkers = () => {
 		})
 		.catch(err => console.error(err))
 	}
-}
+};
 
 export const addNewMarker = marker => {
 	return dispatch => {

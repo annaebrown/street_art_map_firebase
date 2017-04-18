@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import InitialMap from './InitialMap';
+import Form from './Form';
 import {Button} from 'react-bootstrap';
 import {addNewMarker, getAllMarkers} from '../reducers/mapReducer';
 import { 
@@ -16,12 +17,14 @@ class MapComponent extends Component {
     super(props);
   	
     this.state = {
-        markers: []
+        popUpPosition: {},
+        showPopUp: false
     };
 
     this.handleMapClick = this.handleMapClick.bind(this);
     this.handleMapLoad = this.handleMapLoad.bind(this);
     this.handleMarkerClick = this.handleMarkerClick.bind(this);
+    this.closePopUp = this.closePopUp.bind(this);
     // this.handleMarkerClose = this.handleMarkerClose.bind(this);
     // this.handleChange = this.handleChange.bind(this);
     // this.updatingContent = this.updatingContent.bind(this);
@@ -29,9 +32,6 @@ class MapComponent extends Component {
 
   componentDidMount(){
     this.props.getMarkers();
-    this.setState({
-      markers: this.props.markers
-    })
   }
 
   handleMapLoad(map) {
@@ -46,6 +46,7 @@ class MapComponent extends Component {
       selectedMarker: marker
     });
   }
+
 
 //   componentDidMount() {
 //     axios.get('/api')
@@ -68,11 +69,19 @@ class MapComponent extends Component {
 //   }
 
   handleMapClick(event) {
-
     const lat = event.latLng.lat();
     const lng = event.latLng.lng();
+    this.setState({
+      popUpPosition: {lat, lng},
+      showPopUp: true
+    });
+  }
 
-    this.props.addNewMarker({latitude: lat, longitude: lng});
+  closePopUp(){
+    this.setState({
+      popUpPosition: {},
+      showPopUp: false
+    });
   }
 
   // handleChange(event) {
@@ -155,10 +164,12 @@ class MapComponent extends Component {
           onMapLoad={this.handleMapLoad}
           onMarkerClick={this.handleMarkerClick}
           onMapClick={this.handleMapClick}
+          popUpPosition={this.state.popUpPosition}
+          showPopUp={this.state.showPopUp}
+          closePopUp={this.state.closePopUp}
         />
         {/*
-        //   
-        //   onMarkerRightClick={this.handleMarkerRightClick}
+          onMarkerRightClick={this.handleMarkerRightClick}
           onMarkerClose={this.handleMarkerClose}
         */}
       </div>
@@ -166,7 +177,7 @@ class MapComponent extends Component {
   }
 }
 
-//CONTAINER
+/*CONTAINER*/
 
 const mapStateToProps = state => {
   return {

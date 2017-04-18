@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PopUp from './InfoWindow';
 import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 
 import { 
@@ -45,6 +45,7 @@ const InitialMap = withGoogleMap(props => (
         onClick={() => props.onMarkerClick(marker)}
       />
     }) : null}
+    { props.showPopUp && props.popUpPosition ? <PopUp position={props.popUpPosition} closePopUp={props.closePopUp}/> : null }
   </GoogleMap>
 ));
 
