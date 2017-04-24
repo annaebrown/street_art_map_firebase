@@ -1,3 +1,60 @@
+.art_form {
+  z-index: 2;
+  position: relative; }
+  .art_form form {
+    z-index: 3;
+    position: absolute; }
+    .art_form form label {
+      font-size: 15px;
+      position: absolute; }
+    .art_form form .file_button {
+      background: transparent url(../public/camera.jpg) left top no-repeat; }
+      .art_form form .file_button input {
+        opacity: 0;
+        position: absolute; }
+    .art_form form input {
+      border-radius: 4px;
+      width: 100%;
+      padding: 8px 15px;
+      margin-bottom: 12px; }
+
+.container {
+  text-align: center;
+  width: 100%;
+  position: relative; }
+
+.map_container {
+  height: 100%; }
+
+#infowindow {
+  display: block;
+  float: left; }
+
+.modal {
+  display: block;
+  z-index: 1;
+  position: absolute;
+  margin-top: 10%;
+  width: 25%;
+  height: auto;
+  font: bold 1.3em "Lucida Console"; }
+  .modal .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold; }
+  .modal .modal_container {
+    background-color: #f8f8f8;
+    padding: 20px;
+    border: 0.5px solid #888; }
+  .modal #modal_button {
+    display: block;
+    height: 50px;
+    text-align: center;
+    background: #e85113;
+    color: #f8f8f8;
+    border-radius: 5px; }
+
 .navbar {
   font-family: "Lucida Console";
   color: #19a0d8;
@@ -6,32 +63,7 @@
   .navbar .navbar_text {
     float: none;
     display: inline-block; }
-
-.container {
-  text-align: center;
-  width: 100% !important; }
-
-.map_container {
-  height: 100%; }
-
-.glyphicon {
-  display: inline-block;
-  color: #e85113;
-  font-size: 20px; }
-
-label {
-  font-size: 15px; }
-
-input {
-  border-radius: 4px;
-  width: 100%;
-  padding: 8px 15px;
-  margin-bottom: 12px !important;
-  box-sizing: border-box; }
-
-#infowindow {
-  display: block;
-  float: left; }
-
-#description {
-  margin-top: 8px; }
+  .navbar .glyphicon {
+    display: inline-block;
+    color: #e85113;
+    font-size: 20px; }

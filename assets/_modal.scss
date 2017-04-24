@@ -1,0 +1,33 @@
+$tan: #f8f8f8;
+$button_color: #e85113;
+$modal_border: .5px solid #888;
+$modal_font: bold 1.3em "Lucida Console";
+
+.modal {
+	display: block;
+	z-index: 1;
+	position: absolute;
+	margin-top: 10%;
+	width: 25%;
+	height: auto;
+	font: $modal_font;
+	.close {
+	    color: #aaa;
+	    float: right;
+	    font-size: 28px;
+	    font-weight: bold;
+	}
+	.modal_container {
+		background-color: $tan;
+		padding: 20px;
+		border: $modal_border;
+	}
+	#modal_button {
+		display: block;
+		height: 50px;
+		text-align: center;
+		background: $button_color;
+		color: $tan;
+		border-radius: 5px;
+	}
+}

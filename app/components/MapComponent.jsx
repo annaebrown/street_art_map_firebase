@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import InitialMap from './InitialMap';
 import Form from './Form';
+import {Modal} from './Modal';
 import {Button} from 'react-bootstrap';
-import {addNewMarker, getAllMarkers} from '../reducers/mapReducer';
+import {addMarker} from '../reducers/mapReducer';
 import { 
   withGoogleMap,
   GoogleMap,
@@ -18,21 +19,24 @@ class MapComponent extends Component {
   	
     this.state = {
         popUpPosition: {},
-        showPopUp: false
+        showPopUp: false,
+        showModal: false
     };
 
     this.handleMapClick = this.handleMapClick.bind(this);
     this.handleMapLoad = this.handleMapLoad.bind(this);
     this.handleMarkerClick = this.handleMarkerClick.bind(this);
     this.closePopUp = this.closePopUp.bind(this);
+    this.handlePopUpSubmit = this.handlePopUpSubmit.bind(this);
+    this.modalClick = this.modalClick.bind(this);
     // this.handleMarkerClose = this.handleMarkerClose.bind(this);
     // this.handleChange = this.handleChange.bind(this);
     // this.updatingContent = this.updatingContent.bind(this);
   }
 
-  componentDidMount(){
-    this.props.getMarkers();
-  }
+  // componentDidMount(){
+  //   this.props.getMarkers();
+  // }
 
   handleMapLoad(map) {
     this._mapComponent = map;
@@ -47,27 +51,6 @@ class MapComponent extends Component {
     });
   }
 
-
-//   componentDidMount() {
-//     axios.get('/api')
-//       .then(response => {
-//         const markerData = response.data;
-//         console.log(response.data)
-//         const nextMarkers = markerData.map(markerObject => {
-//           const latLng = {lat: Number(markerObject.latitude), lng: Number(markerObject.longitude)}
-//           const content = markerObject.content ? markerObject.content : null
-//           return {
-//           id: markerObject.id,
-//           position: latLng,
-//           content: content
-//           }
-//       })
-//       this.setState({
-//         markers: nextMarkers
-//       })
-//     })
-//   }
-
   handleMapClick(event) {
     const lat = event.latLng.lat();
     const lng = event.latLng.lng();
@@ -77,11 +60,26 @@ class MapComponent extends Component {
     });
   }
 
+  handlePopUpSubmit(e){
+    e.preventDefault();
+    
+    this.setState({
+      showPopUp: false
+    })
+
+    this.props.addNewMarker(this.state.popUpPosition)
+  }
+
   closePopUp(){
     this.setState({
-      popUpPosition: {},
       showPopUp: false
     });
+  }
+
+  modalClick(){
+    this.setState({
+      showModal: !this.state.showModal
+    })
   }
 
   // handleChange(event) {
@@ -152,26 +150,30 @@ class MapComponent extends Component {
 
   render() {
     return (
-      <div className='map_container'>
-        <InitialMap
-          containerElement={
-            <div style={{ height: '100vh', width: 'auto' }} />
-          }
-          mapElement={
-            <div style={{ height: '100vh', width: '100vw' }} />
-          }
-          markers={this.props.markers}
-          onMapLoad={this.handleMapLoad}
-          onMarkerClick={this.handleMarkerClick}
-          onMapClick={this.handleMapClick}
-          popUpPosition={this.state.popUpPosition}
-          showPopUp={this.state.showPopUp}
-          closePopUp={this.state.closePopUp}
-        />
-        {/*
-          onMarkerRightClick={this.handleMarkerRightClick}
-          onMarkerClose={this.handleMarkerClose}
-        */}
+      <div>
+        <Modal handleClick={this.modalClick} showModal={this.state.showModal}/>
+        <div className='map_container'>
+          <InitialMap
+            containerElement={
+              <div style={{ height: '100vh', width: 'auto' }} />
+            }
+            mapElement={
+              <div style={{ height: '100vh', width: '100vw' }} />
+            }
+            markers={this.props.markers}
+            onMapLoad={this.handleMapLoad}
+            onMarkerClick={this.handleMarkerClick}
+            onMapClick={this.handleMapClick}
+            popUpPosition={this.state.popUpPosition}
+            showPopUp={this.state.showPopUp}
+            closePopUp={this.closePopUp}
+            handleFormSubmit={this.handlePopUpSubmit}
+          />
+          {/*
+            onMarkerRightClick={this.handleMarkerRightClick}
+            onMarkerClose={this.handleMarkerClose}
+          */}
+        </div>
       </div>
     );
   }
@@ -187,8 +189,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addNewMarker: marker => dispatch(addNewMarker(marker)),
-    getMarkers: () => dispatch(getAllMarkers())
+    addNewMarker: marker => dispatch(addMarker(marker))
   }
 }
 

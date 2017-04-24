@@ -1,0 +1,19 @@
+$lightwhite: #19a0d8;
+$lightning: #e85113;
+
+.navbar {
+	font-family: "Lucida Console";
+	color : $lightwhite;
+	font-size : 35px;
+	display: inline-block;
+	.navbar_text {
+		float: none;
+		display: inline-block;
+	}
+	.glyphicon {
+	display: inline-block;
+	color: $lightning;
+	font-size: 20px;
+	}
+}
+
