@@ -6,7 +6,8 @@
 		font-size:15px;
 	}
 	.file_button {
-		background: transparent url(../public/camera.jpg) left top no-repeat;
+		background: transparent url(/camera.jpg) left top no-repeat;
+		background-size: 6%;
 		input {
 			opacity: 0;
 		}

@@ -12184,31 +12184,31 @@ var Form = function Form(props) {
 			_react2.default.createElement(
 				'label',
 				null,
-				'Image:'
+				'Add your image:'
 			),
 			_react2.default.createElement(
 				'div',
 				{ className: 'file_button' },
-				_react2.default.createElement('input', { type: 'file' })
+				_react2.default.createElement('input', { name: 'photo', type: 'file' })
 			),
 			_react2.default.createElement(
 				'label',
 				null,
 				'Name:'
 			),
-			_react2.default.createElement('input', { type: 'name' }),
+			_react2.default.createElement('input', { type: 'name', name: 'name' }),
 			_react2.default.createElement(
 				'label',
 				null,
 				'Description:'
 			),
-			_react2.default.createElement('input', { type: 'description' }),
+			_react2.default.createElement('input', { type: 'description', name: 'description' }),
 			_react2.default.createElement(
 				'label',
 				null,
 				'Artist:'
 			),
-			_react2.default.createElement('input', { type: 'artist' }),
+			_react2.default.createElement('input', { type: 'artist', name: 'artist' }),
 			_react2.default.createElement(
 				_reactBootstrap.Button,
 				{ type: 'submit' },
@@ -21191,12 +21191,12 @@ var MapComponent = function (_Component) {
   }, {
     key: 'handlePopUpSubmit',
     value: function handlePopUpSubmit(e) {
+      console.log(e.target.name.value, 'EVENT');
       e.preventDefault();
-
       this.setState({
         showPopUp: false
       });
-
+      //this.props.addNewMarker(name: e.target.name.value, etc...)
       this.props.addNewMarker(this.state.popUpPosition);
     }
   }, {

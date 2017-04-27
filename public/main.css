@@ -1,22 +1,18 @@
 .art_form {
   z-index: 2;
-  position: relative; }
-  .art_form form {
-    z-index: 3;
-    position: absolute; }
-    .art_form form label {
-      font-size: 15px;
-      position: absolute; }
-    .art_form form .file_button {
-      background: transparent url(../public/camera.jpg) left top no-repeat; }
-      .art_form form .file_button input {
-        opacity: 0;
-        position: absolute; }
-    .art_form form input {
-      border-radius: 4px;
-      width: 100%;
-      padding: 8px 15px;
-      margin-bottom: 12px; }
+  /*need to figure out absolute POSITIONING here*/ }
+  .art_form label {
+    font-size: 15px; }
+  .art_form .file_button {
+    background: transparent url(/camera.jpg) left top no-repeat;
+    background-size: 6%; }
+    .art_form .file_button input {
+      opacity: 0; }
+  .art_form input {
+    border-radius: 4px;
+    width: 100%;
+    padding: 8px 15px;
+    margin-bottom: 12px; }
 
 .container {
   text-align: center;
@@ -34,7 +30,7 @@
   display: block;
   z-index: 1;
   position: absolute;
-  margin-top: 10%;
+  margin-top: 5%;
   width: 25%;
   height: auto;
   font: bold 1.3em "Lucida Console"; }

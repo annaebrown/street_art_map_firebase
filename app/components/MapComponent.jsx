@@ -61,12 +61,12 @@ class MapComponent extends Component {
   }
 
   handlePopUpSubmit(e){
+    console.log(e.target.name.value, 'EVENT')
     e.preventDefault();
-    
     this.setState({
       showPopUp: false
     })
-
+    //this.props.addNewMarker(name: e.target.name.value, etc...)
     this.props.addNewMarker(this.state.popUpPosition)
   }
 
