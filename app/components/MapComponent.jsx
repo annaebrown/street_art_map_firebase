@@ -4,7 +4,7 @@ import InitialMap from './InitialMap';
 import Form from './Form';
 import {Modal} from './Modal';
 import {Button} from 'react-bootstrap';
-import {addMarker} from '../reducers/mapReducer';
+import {getAllMarkers, addNewMarker, toggleMarker} from '../reducers/mapReducer';
 import { 
   withGoogleMap,
   GoogleMap,
@@ -24,31 +24,21 @@ class MapComponent extends Component {
     };
 
     this.handleMapClick = this.handleMapClick.bind(this);
-    this.handleMapLoad = this.handleMapLoad.bind(this);
     this.handleMarkerClick = this.handleMarkerClick.bind(this);
     this.closePopUp = this.closePopUp.bind(this);
     this.handlePopUpSubmit = this.handlePopUpSubmit.bind(this);
     this.modalClick = this.modalClick.bind(this);
-    // this.handleMarkerClose = this.handleMarkerClose.bind(this);
-    // this.handleChange = this.handleChange.bind(this);
-    // this.updatingContent = this.updatingContent.bind(this);
+    this.handleMarkerClose = this.handleMarkerClose.bind(this);
+
   }
 
-  // componentDidMount(){
-  //   this.props.getMarkers();
-  // }
-
-  handleMapLoad(map) {
-    this._mapComponent = map;
-    if (map) {
-      console.log(map.getZoom());
-    }
+  componentDidMount(){
+    this.props.getMarkers();
   }
 
   handleMarkerClick(marker) {
-    this.setState({
-      selectedMarker: marker
-    });
+    marker.showInfo = true;
+    this.props.toggleMarker(marker);
   }
 
   handleMapClick(event) {
@@ -61,13 +51,18 @@ class MapComponent extends Component {
   }
 
   handlePopUpSubmit(e){
-    console.log(e.target.name.value, 'EVENT')
     e.preventDefault();
+    const photo = e.target.photo.files[0];
+    const newMarker = {
+      lat: this.state.popUpPosition.lat,
+      lng: this.state.popUpPosition.lng,
+      artworks: [{description: e.target.description.value}]
+    };
+    this.props.addNewMarker(newMarker, photo);
+
     this.setState({
       showPopUp: false
-    })
-    //this.props.addNewMarker(name: e.target.name.value, etc...)
-    this.props.addNewMarker(this.state.popUpPosition)
+    });
   }
 
   closePopUp(){
@@ -79,74 +74,13 @@ class MapComponent extends Component {
   modalClick(){
     this.setState({
       showModal: !this.state.showModal
-    })
+    });
   }
 
-  // handleChange(event) {
-  // 	this.setState({formValue: event.target.value})
-  // }
-
-
-//   handleMarkerRightClick(targetMarker) {
-//     const nextMarkers = this.state.markers.filter(marker => marker !== targetMarker);
-//     this.setState({
-//       markers: nextMarkers,
-//     });
-//   }
-
-//   handleMarkerClick(targetMarker) {
-//      this.setState({
-//        markers: this.state.markers.map(marker => {
-//          if (marker === targetMarker) marker.showInfo = true
-//          if (!marker.content) {
-//           marker.content = (
-//             <form onSubmit={(event) => {
-//               console.log(event, marker.id)
-//               this.updatingContent(this.state.formValue, marker.id)
-//             }}>
-//               <label>Description:</label>
-//               <input type="text" onChange={this.handleChange}/>
-//               <Button type="submit">
-//                 Submit
-//               </Button>
-//             </form>
-//             )} else {
-//             marker.imageUrl = imageArray[Math.floor(Math.random() * 10)]
-//             console.log(imageArray[Math.floor(Math.random() * 10)])
-//           }
-//          console.log(marker)
-//          return marker;
-//       })
-//   })
-// }
-
-//  updatingContent(content, markerId) {
-//   axios.put('/api', {content: content, id: markerId})
-//   .then(response => {
-//       const markerData = response.data;
-//       const nextMarkers = markerData.map(markerObject => {
-//         const latLng = {lat: Number(markerObject.latitude), lng: Number(markerObject.longitude)}
-//         const content = markerObject.content ? markerObject.content : null
-//         return {
-//           id: markerObject.id,
-//           position: latLng,
-//           content: content
-//         }
-//       })
-//       this.setState({
-//         markers: nextMarkers
-//       })
-//    })
-//  }
-
-// 	handleMarkerClose(targetMarker) {
-// 	 this.setState({
-// 	   markers: this.state.markers.map(marker => {
-// 	     if (marker === targetMarker) marker.showInfo = false
-// 	     return marker;
-// 	   }),
-// 	 })
-// 	}
+	handleMarkerClose(marker) {
+    marker.showInfo = false;
+    this.props.toggleMarker(marker);
+	}
 
   render() {
     return (
@@ -164,6 +98,7 @@ class MapComponent extends Component {
             onMapLoad={this.handleMapLoad}
             onMarkerClick={this.handleMarkerClick}
             onMapClick={this.handleMapClick}
+            onMarkerClose={this.handleMarkerClose}
             popUpPosition={this.state.popUpPosition}
             showPopUp={this.state.showPopUp}
             closePopUp={this.closePopUp}
@@ -189,7 +124,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addNewMarker: marker => dispatch(addMarker(marker))
+    addNewMarker: (marker, photo) => dispatch(addNewMarker(marker, photo)),
+    toggleMarker: marker => dispatch(toggleMarker(marker)),
+    getMarkers: () => dispatch(getAllMarkers())
   }
 }
 

@@ -5,22 +5,25 @@ const Form = props => {
 	return (
 		<div className='art_form'>
 			<form onSubmit={props.onSubmit}>
+			<div className='file_upload'>
 			  <label>Add your image:</label>
 			  <div className='file_button'>
-			  	<input name="photo" type='file'/>
+			  	<input type='file' name='photo' />
 			  </div>
-		      <label>Name:</label>
-		      <input type='name' name='name'/>
-		      <label>Description:</label>
-		      <input type='description' name='description'/>
-		      <label>Artist:</label>
-		      <input type='artist' name='artist'/>
-		      <Button type='submit'>
-		        Submit
-		      </Button>
+			  <div className='progress'>
+			  	<div className='bar'></div>
+			  	<div className='percent'>0%</div>
+			  </div>
+			  <div id='status'></div>
+			</div>
+		    <label>Description:</label>
+		    <input type='description' name='description'/>
+		    <Button type='submit'>
+		       Submit
+		    </Button>
 		    </form>
 	    </div>
 	)
-}
+};
 
 export default Form;

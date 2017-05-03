@@ -1,13 +1,12 @@
 
 .art_form {
 	z-index: 2;
-	/*need to figure out absolute POSITIONING here*/
 	label {
 		font-size:15px;
 	}
 	.file_button {
 		background: transparent url(/camera.jpg) left top no-repeat;
-		background-size: 6%;
+		background-size: 12%;
 		input {
 			opacity: 0;
 		}
@@ -17,5 +16,21 @@
 		width: 100%;
 		padding: 8px 15px;
 		margin-bottom: 12px;
+	}
+}
+
+.art_window {
+	padding: 10px;
+	font-size: 1.2em;
+	overflow-wrap: break-word;
+	.art_image {
+		height: 300px;
+		width: 400px;
+		overflow: hidden;
+		img {
+			height: auto;
+			width: 400px;
+			box-shadow: inset 0 0 10px #000000;
+		}
 	}
 }

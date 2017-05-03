@@ -5,10 +5,11 @@ $modal_font: bold 1.3em "Lucida Console";
 
 .modal {
 	display: block;
+	bottom: unset;
 	z-index: 1;
 	position: absolute;
-	margin-top: 5%;
-	width: 25%;
+	margin-top: 10%;
+	max-width: 20%;
 	height: auto;
 	font: $modal_font;
 	.close {
@@ -23,6 +24,8 @@ $modal_font: bold 1.3em "Lucida Console";
 		border: $modal_border;
 	}
 	#modal_button {
+		overflow: auto;
+		width: 100%;
 		display: block;
 		height: 50px;
 		text-align: center;

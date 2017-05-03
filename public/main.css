@@ -5,7 +5,7 @@
     font-size: 15px; }
   .art_form .file_button {
     background: transparent url(/camera.jpg) left top no-repeat;
-    background-size: 6%; }
+    background-size: 12%; }
     .art_form .file_button input {
       opacity: 0; }
   .art_form input {
@@ -13,6 +13,19 @@
     width: 100%;
     padding: 8px 15px;
     margin-bottom: 12px; }
+
+.art_window {
+  padding: 10px;
+  font-size: 1.2em;
+  overflow-wrap: break-word; }
+  .art_window .art_image {
+    height: 300px;
+    width: 400px;
+    overflow: hidden; }
+    .art_window .art_image img {
+      height: auto;
+      width: 400px;
+      box-shadow: inset 0 0 10px #000000; }
 
 .container {
   text-align: center;
@@ -22,16 +35,13 @@
 .map_container {
   height: 100%; }
 
-#infowindow {
-  display: block;
-  float: left; }
-
 .modal {
   display: block;
+  bottom: unset;
   z-index: 1;
   position: absolute;
-  margin-top: 5%;
-  width: 25%;
+  margin-top: 10%;
+  max-width: 20%;
   height: auto;
   font: bold 1.3em "Lucida Console"; }
   .modal .close {
@@ -44,6 +54,8 @@
     padding: 20px;
     border: 0.5px solid #888; }
   .modal #modal_button {
+    overflow: auto;
+    width: 100%;
     display: block;
     height: 50px;
     text-align: center;

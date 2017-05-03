@@ -1,6 +1,7 @@
 'use strict';
 
 var webpack = require('webpack');
+var StatsPlugin = require('stats-webpack-plugin');
 
 module.exports = {
   entry: './app/main.jsx',
@@ -14,15 +15,21 @@ module.exports = {
     extensions: ['.js', '.jsx', '*']
   },
  module: {
-     rules: [{
-       test: /jsx?$/,
-       exclude: /(node_modules|bower_components)/,
-       use: [{
-         loader: 'babel-loader',
-         options: {
-           'presets': ['react', 'es2015', 'stage-2']
-         }
-       }]
+   rules: [{
+     test: /jsx?$/,
+     exclude: /(node_modules|bower_components)/,
+     use: [{
+       loader: 'babel-loader',
+       options: {
+         'presets': ['react', 'es2015', 'stage-2']
+       }
      }]
-   }
-};
+   }]
+  },
+  plugins: [
+     new StatsPlugin('./stats.json', {
+       chunkModules: true,
+       exclude: [/node_modules[\\\/]react/]
+     })
+   ]
+ }
