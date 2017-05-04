@@ -7,7 +7,7 @@ const NavBar = (props) => (
 			<span><Glyphicon glyph="flash"/></span>
 			<span><Glyphicon glyph="flash"/></span>
 			    <Navbar.Text className='navbar_text'>
-			        Street Art View
+			        Brooklyn Street View
 			    </Navbar.Text>
 		    <span><Glyphicon glyph="flash" /></span>
 		    <span><Glyphicon glyph="flash"/></span>

@@ -1,8 +1,7 @@
 .art_form {
-  z-index: 2;
-  /*need to figure out absolute POSITIONING here*/ }
+  z-index: 2; }
   .art_form label {
-    font-size: 15px; }
+    font-size: 1em; }
   .art_form .file_button {
     background: transparent url(/camera.jpg) left top no-repeat;
     background-size: 12%; }
@@ -13,19 +12,36 @@
     width: 100%;
     padding: 8px 15px;
     margin-bottom: 12px; }
+  .art_form progress {
+    display: block;
+    padding: 2px 5px; }
+    .art_form progress .success {
+      background: #0c0 none 0 0 no-repeat; }
+    .art_form progress .failed {
+      background: #c00 none 0 0 no-repeat; }
 
 .art_window {
   padding: 10px;
   font-size: 1.2em;
-  overflow-wrap: break-word; }
+  overflow-wrap: break-word;
+  width: 80%; }
   .art_window .art_image {
-    height: 300px;
-    width: 400px;
+    height: auto;
+    margin-bottom: 5px;
+    width: 150px;
     overflow: hidden; }
     .art_window .art_image img {
       height: auto;
-      width: 400px;
+      width: 100%;
+      max-width: 100%;
       box-shadow: inset 0 0 10px #000000; }
+  @media screen and (max-width: 400px) {
+    .art_window {
+      font-size: .9em;
+      padding: 5px; } }
+
+.gm-style-iw {
+  max-width: 300px; }
 
 .container {
   text-align: center;
@@ -36,37 +52,53 @@
   height: 100%; }
 
 .modal {
+  width: 20%;
+  height: auto;
   display: block;
   bottom: unset;
-  z-index: 1;
-  position: absolute;
   margin-top: 10%;
-  max-width: 20%;
-  height: auto;
   font: bold 1.3em "Lucida Console"; }
-  .modal .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold; }
   .modal .modal_container {
     background-color: #f8f8f8;
-    padding: 20px;
+    padding: 10%;
     border: 0.5px solid #888; }
+    .modal .modal_container:after {
+      content: '';
+      display: table;
+      clear: both; }
   .modal #modal_button {
     overflow: auto;
     width: 100%;
+    height: auto;
     display: block;
-    height: 50px;
     text-align: center;
     background: #e85113;
     color: #f8f8f8;
     border-radius: 5px; }
+    .modal #modal_button:after {
+      content: '';
+      display: table;
+      clear: both; }
+  @media screen and (max-width: 770px) {
+    .modal {
+      width: 50%;
+      margin: 10% auto;
+      font-size: 1em; }
+      .modal .modal_container {
+        padding: 5%; }
+      .modal #modal_button {
+        height: 50px; } }
+  @media screen and (max-width: 400px) {
+    .modal {
+      font-size: .7em; }
+      .modal #modal_button {
+        height: 30px;
+        margin-top: 20%; } }
 
 .navbar {
   font-family: "Lucida Console";
   color: #19a0d8;
-  font-size: 35px;
+  font-size: 2em;
   display: inline-block; }
   .navbar .navbar_text {
     float: none;
@@ -74,4 +106,9 @@
   .navbar .glyphicon {
     display: inline-block;
     color: #e85113;
-    font-size: 20px; }
+    font-size: 1em; }
+  @media screen and (max-width: 400px) {
+    .navbar {
+      font-size: 1.3em; }
+      .navbar .glyphicon {
+        font-size: .6em; } }

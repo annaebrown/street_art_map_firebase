@@ -8,7 +8,7 @@ const ArtworkWindow = (props) => {
 				<img src={marker.artworks[0].img}/>
 			</div>
 			<div className='art_info'>
-				<p>{`Description: ${marker.artworks[0].description}`}</p>
+				<p>{marker.artworks[0].description}</p>
 			</div>
 		</div>
 	)

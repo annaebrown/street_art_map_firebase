@@ -8,12 +8,9 @@ const Form = props => {
 			<div className='file_upload'>
 			  <label>Add your image:</label>
 			  <div className='file_button'>
-			  	<input type='file' name='photo' />
+			  	<input type='file' name='photo'/>
 			  </div>
-			  <div className='progress'>
-			  	<div className='bar'></div>
-			  	<div className='percent'>0%</div>
-			  </div>
+			  <progress id='progress_bar' value='0' max='100'>0%</progress>
 			  <div id='status'></div>
 			</div>
 		    <label>Description:</label>

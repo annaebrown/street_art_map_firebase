@@ -12240,14 +12240,9 @@ var Form = function Form(props) {
 					_react2.default.createElement('input', { type: 'file', name: 'photo' })
 				),
 				_react2.default.createElement(
-					'div',
-					{ className: 'progress' },
-					_react2.default.createElement('div', { className: 'bar' }),
-					_react2.default.createElement(
-						'div',
-						{ className: 'percent' },
-						'0%'
-					)
+					'progress',
+					{ id: 'progress_bar', value: '0', max: '100' },
+					'0%'
 				),
 				_react2.default.createElement('div', { id: 'status' })
 			),
@@ -12359,7 +12354,7 @@ var getAllMarkers = exports.getAllMarkers = function getAllMarkers() {
 
 var addNewMarker = exports.addNewMarker = function addNewMarker(marker, photo) {
 	return function (dispatch) {
-		_firebase_config.firebase.database().ref('markers').push().once('value').then(function (markerVal) {
+		_firebase_config.firebase.database().ref('markers').push().then(function (markerVal) {
 			var markerKey = markerVal.getKey();
 			var storageRef = _firebase_config.storage.ref(markerKey + '/' + photo.name);
 			storageRef.put(photo).then(function () {
@@ -21281,7 +21276,7 @@ var ArtworkWindow = function ArtworkWindow(props) {
 			_react2.default.createElement(
 				'p',
 				null,
-				'Description: ' + marker.artworks[0].description
+				marker.artworks[0].description
 			)
 		)
 	);
@@ -21363,8 +21358,9 @@ var InitialMap = (0, _reactGoogleMaps.withGoogleMap)(function (props) {
   return _react2.default.createElement(
     _reactGoogleMaps.GoogleMap,
     {
+      ref: props.setMap,
       defaultZoom: 14,
-      defaultCenter: { lat: 40.6944, lng: -73.9213 },
+      defaultCenter: props.center,
       defaultOptions: { styles: _MapStyles.fancyStyles },
       onClick: function onClick(evt) {
         return props.onMapClick(evt);
@@ -21389,7 +21385,7 @@ var InitialMap = (0, _reactGoogleMaps.withGoogleMap)(function (props) {
         )
       );
     }),
-    props.showPopUp && props.popUpPosition ? _react2.default.createElement(_InfoWindow2.default, { position: props.popUpPosition, closePopUp: props.closePopUp, handleSubmit: props.handleFormSubmit }) : null
+    props.showPopUp && props.popUpPosition ? _react2.default.createElement(_InfoWindow2.default, { position: props.popUpPosition, closePopUp: props.closePopUp, showProgress: props.showProgress, onSubmit: props.handleFormSubmit }) : null
   );
 });
 
@@ -21451,7 +21447,9 @@ var MapComponent = function (_Component) {
     _this.state = {
       popUpPosition: {},
       showPopUp: false,
-      showModal: false
+      showModal: false,
+      center: new google.maps.LatLng(40.6944, -73.9213),
+      map: {}
     };
 
     _this.handleMapClick = _this.handleMapClick.bind(_this);
@@ -21460,6 +21458,8 @@ var MapComponent = function (_Component) {
     _this.handlePopUpSubmit = _this.handlePopUpSubmit.bind(_this);
     _this.modalClick = _this.modalClick.bind(_this);
     _this.handleMarkerClose = _this.handleMarkerClose.bind(_this);
+    _this.setCenter = _this.setCenter.bind(_this);
+    _this.setMap = _this.setMap.bind(_this);
 
     return _this;
   }
@@ -21472,8 +21472,14 @@ var MapComponent = function (_Component) {
   }, {
     key: 'handleMarkerClick',
     value: function handleMarkerClick(marker) {
+      this.props.markers.map(function (m) {
+        m.showInfo = false;
+      });
+
       marker.showInfo = true;
-      this.props.toggleMarker(marker);
+      this.setState({
+        center: { lat: marker.lat, lng: marker.lng }
+      });
     }
   }, {
     key: 'handleMapClick',
@@ -21482,8 +21488,27 @@ var MapComponent = function (_Component) {
       var lng = event.latLng.lng();
       this.setState({
         popUpPosition: { lat: lat, lng: lng },
+        center: { lat: lat, lng: lng },
         showPopUp: true
       });
+
+      // this.setCenter(this.state.map)
+    }
+  }, {
+    key: 'setMap',
+    value: function setMap(map) {
+      if (map) {
+        this.setState({
+          map: map
+        });
+      }
+    }
+  }, {
+    key: 'setCenter',
+    value: function setCenter(map) {
+      if (map) {
+        map.panTo(this.state.center);
+      }
     }
   }, {
     key: 'handlePopUpSubmit',
@@ -21519,7 +21544,6 @@ var MapComponent = function (_Component) {
     key: 'handleMarkerClose',
     value: function handleMarkerClose(marker) {
       marker.showInfo = false;
-      this.props.toggleMarker(marker);
     }
   }, {
     key: 'render',
@@ -21534,6 +21558,7 @@ var MapComponent = function (_Component) {
           _react2.default.createElement(_InitialMap2.default, {
             containerElement: _react2.default.createElement('div', { style: { height: '100vh', width: 'auto' } }),
             mapElement: _react2.default.createElement('div', { style: { height: '100vh', width: '100vw' } }),
+            center: this.state.center,
             markers: this.props.markers,
             onMapLoad: this.handleMapLoad,
             onMarkerClick: this.handleMarkerClick,
@@ -21542,7 +21567,9 @@ var MapComponent = function (_Component) {
             popUpPosition: this.state.popUpPosition,
             showPopUp: this.state.showPopUp,
             closePopUp: this.closePopUp,
-            handleFormSubmit: this.handlePopUpSubmit
+            handleFormSubmit: this.handlePopUpSubmit,
+            setCenter: this.setCenter,
+            setMap: this.setMap
           })
         )
       );
@@ -21564,9 +21591,6 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     addNewMarker: function addNewMarker(marker, photo) {
       return dispatch((0, _mapReducer.addNewMarker)(marker, photo));
-    },
-    toggleMarker: function toggleMarker(marker) {
-      return dispatch((0, _mapReducer.toggleMarker)(marker));
     },
     getMarkers: function getMarkers() {
       return dispatch((0, _mapReducer.getAllMarkers)());
@@ -21677,7 +21701,7 @@ var NavBar = function NavBar(props) {
 		_react2.default.createElement(
 			_reactBootstrap.Navbar.Text,
 			{ className: 'navbar_text' },
-			'Street Art View'
+			'Brooklyn Street View'
 		),
 		_react2.default.createElement(
 			'span',

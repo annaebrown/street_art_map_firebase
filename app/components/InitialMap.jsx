@@ -14,8 +14,9 @@ import {
 
 const InitialMap = withGoogleMap(props => (
   <GoogleMap
+    ref={props.setMap}
     defaultZoom={14}
-    defaultCenter={{ lat: 40.6944, lng: -73.9213 }}
+    defaultCenter={props.center}
     defaultOptions={{ styles: fancyStyles }}
     onClick={(evt) => props.onMapClick(evt)}
   >
@@ -26,13 +27,13 @@ const InitialMap = withGoogleMap(props => (
         onClick={() => props.onMarkerClick(marker)}
       >
         { marker.showInfo && (
-          <InfoWindow onCloseClick={() => props.onMarkerClose(marker)}>
-            <ArtworkWindow marker={marker}/>
-          </InfoWindow>
+            <InfoWindow onCloseClick={() => props.onMarkerClose(marker)}>
+              <ArtworkWindow marker={marker}/>
+            </InfoWindow>
         ) }
       </Marker>
     }) }
-    { props.showPopUp && props.popUpPosition ? <PopUp position={props.popUpPosition} closePopUp={props.closePopUp} handleSubmit={props.handleFormSubmit}/> : null }
+    { props.showPopUp && props.popUpPosition ? <PopUp position={props.popUpPosition} closePopUp={props.closePopUp} showProgress={props.showProgress} onSubmit={props.handleFormSubmit}/> : null }
   </GoogleMap>
 ));
 

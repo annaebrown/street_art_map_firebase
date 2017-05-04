@@ -20,7 +20,9 @@ class MapComponent extends Component {
     this.state = {
         popUpPosition: {},
         showPopUp: false,
-        showModal: false
+        showModal: false,
+        center: new google.maps.LatLng(40.6944, -73.9213),
+        map: {}
     };
 
     this.handleMapClick = this.handleMapClick.bind(this);
@@ -29,6 +31,8 @@ class MapComponent extends Component {
     this.handlePopUpSubmit = this.handlePopUpSubmit.bind(this);
     this.modalClick = this.modalClick.bind(this);
     this.handleMarkerClose = this.handleMarkerClose.bind(this);
+    this.setCenter = this.setCenter.bind(this);
+    this.setMap = this.setMap.bind(this);
 
   }
 
@@ -37,8 +41,15 @@ class MapComponent extends Component {
   }
 
   handleMarkerClick(marker) {
+    this.props.markers.map(m => {
+      m.showInfo = false;
+    });
+
     marker.showInfo = true;
-    this.props.toggleMarker(marker);
+    this.setState({
+      center: {lat: marker.lat, lng: marker.lng}
+    });
+
   }
 
   handleMapClick(event) {
@@ -46,8 +57,25 @@ class MapComponent extends Component {
     const lng = event.latLng.lng();
     this.setState({
       popUpPosition: {lat, lng},
+      center: {lat, lng},
       showPopUp: true
     });
+
+    // this.setCenter(this.state.map)
+  }
+
+  setMap(map) {
+    if (map) {
+      this.setState({
+        map
+      })
+    }
+  }
+
+  setCenter(map) {
+    if(map){
+      map.panTo(this.state.center)
+    }
   }
 
   handlePopUpSubmit(e){
@@ -79,8 +107,8 @@ class MapComponent extends Component {
 
 	handleMarkerClose(marker) {
     marker.showInfo = false;
-    this.props.toggleMarker(marker);
 	}
+
 
   render() {
     return (
@@ -94,6 +122,7 @@ class MapComponent extends Component {
             mapElement={
               <div style={{ height: '100vh', width: '100vw' }} />
             }
+            center={this.state.center}
             markers={this.props.markers}
             onMapLoad={this.handleMapLoad}
             onMarkerClick={this.handleMarkerClick}
@@ -103,6 +132,8 @@ class MapComponent extends Component {
             showPopUp={this.state.showPopUp}
             closePopUp={this.closePopUp}
             handleFormSubmit={this.handlePopUpSubmit}
+            setCenter={this.setCenter}
+            setMap={this.setMap}
           />
           {/*
             onMarkerRightClick={this.handleMarkerRightClick}
@@ -125,7 +156,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     addNewMarker: (marker, photo) => dispatch(addNewMarker(marker, photo)),
-    toggleMarker: marker => dispatch(toggleMarker(marker)),
     getMarkers: () => dispatch(getAllMarkers())
   }
 }

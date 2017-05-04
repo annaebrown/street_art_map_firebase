@@ -4,33 +4,53 @@ $modal_border: .5px solid #888;
 $modal_font: bold 1.3em "Lucida Console";
 
 .modal {
+	width: 20%;
+	height: auto;
 	display: block;
 	bottom: unset;
-	z-index: 1;
-	position: absolute;
 	margin-top: 10%;
-	max-width: 20%;
-	height: auto;
 	font: $modal_font;
-	.close {
-	    color: #aaa;
-	    float: right;
-	    font-size: 28px;
-	    font-weight: bold;
-	}
 	.modal_container {
 		background-color: $tan;
-		padding: 20px;
+		padding: 10%;
 		border: $modal_border;
+		&:after {
+			content: '';
+			display: table;
+			clear: both;
+		}
 	}
 	#modal_button {
 		overflow: auto;
 		width: 100%;
+		height: auto;
 		display: block;
-		height: 50px;
 		text-align: center;
 		background: $button_color;
 		color: $tan;
 		border-radius: 5px;
+		&:after {
+			content: '';
+			display: table;
+			clear: both;
+		}
 	}
-}
+	@media screen and (max-width: 770px) {
+		width: 50%;
+		margin: 10% auto;
+		font-size: 1em;
+		.modal_container {
+			padding: 5%;
+		}
+		#modal_button {
+			height: 50px;
+		}
+	}
+	@media screen and (max-width: 400px) {
+		font-size: .7em;
+		#modal_button {
+			height: 30px;
+			margin-top: 20%;
+		}
+	}
+} 

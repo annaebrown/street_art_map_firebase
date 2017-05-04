@@ -71,7 +71,6 @@ export const getAllMarkers = () => dispatch => {
 export const addNewMarker = (marker, photo) => dispatch => {
 	firebase.database().ref('markers')
 	.push()
-	.once('value')
 	.then((markerVal) => {
 		const markerKey = markerVal.getKey();
 		const storageRef = storage.ref(`${markerKey}/${photo.name}`);
