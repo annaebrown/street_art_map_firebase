@@ -36,5 +36,8 @@
     "react-tap-event-plugin": "^2.0.1",
     "redux-thunk": "^2.2.0",
     "webpack": "^2.2.1"
+  },
+  "dependencies": {
+    "stats-webpack-plugin": "^0.6.0"
   }
 }

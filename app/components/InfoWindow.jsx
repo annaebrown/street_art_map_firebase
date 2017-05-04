@@ -1,4 +1,5 @@
 import React from 'react';
+import Form from './Form';
 import { 
   InfoWindow
 } from "react-google-maps";
@@ -6,7 +7,9 @@ import {
 const PopUp = (props) => {
 	return (
 		<div>
-			<InfoWindow position={props.position} onCloseClick={() => props.closePopUp()}/>
+			<InfoWindow position={props.position} onCloseClick={() => props.closePopUp()}>
+				<Form onSubmit={props.handleSubmit}/>
+			</InfoWindow>
 		</div>
 	)
 }
