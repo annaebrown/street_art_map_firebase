@@ -21653,7 +21653,7 @@ var Modal = exports.Modal = function Modal(props) {
 				_react2.default.createElement(
 					'p',
 					null,
-					'Click a marker to view existing artwork, or click the map to add your own siting!'
+					'Click a marker to view existing artwork, or click the map to add your own sighting!'
 				)
 			)
 		) : null

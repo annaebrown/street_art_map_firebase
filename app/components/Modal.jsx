@@ -8,7 +8,7 @@ export const Modal = (props) => {
 			props.showModal ? <div className='modal_container'>
 				<div className='modal_content'>
 					<span className='close'>&times;</span>
-					<p>Click a marker to view existing artwork, or click the map to add your own siting!</p>
+					<p>Click a marker to view existing artwork, or click the map to add your own sighting!</p>
 				</div>
 			</div> : null
 			}
