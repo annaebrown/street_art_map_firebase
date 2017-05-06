@@ -10,8 +10,6 @@ const Form = props => {
 			  <div className='file_button'>
 			  	<input type='file' name='photo'/>
 			  </div>
-			  <progress id='progress_bar' value='0' max='100'>0%</progress>
-			  <div id='status'></div>
 			</div>
 		    <label>Description:</label>
 		    <input type='description' name='description'/>
