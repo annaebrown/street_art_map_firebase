@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css?family=Proza+Libre|Work+Sans");
 .art_form {
   z-index: 2; }
   .art_form label {
@@ -57,7 +58,7 @@
   display: block;
   bottom: unset;
   margin-top: 10%;
-  font: bold 1.3em "Lucida Console"; }
+  font: bold 1.3em "Work Sans", "Proza Libre", "Lucida Console", sans-serif; }
   .modal .modal_container {
     background-color: #f8f8f8;
     padding: 10%;
@@ -96,7 +97,7 @@
         margin-top: 20%; } }
 
 .navbar {
-  font-family: "Lucida Console";
+  font-family: "Work Sans", "Proza Libre", "Lucida Console", sans-serif;
   color: #19a0d8;
   font-size: 2em;
   display: inline-block; }
