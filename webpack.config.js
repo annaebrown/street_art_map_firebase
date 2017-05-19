@@ -13,16 +13,16 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx', '*']
   },
- module: {
-     rules: [{
-       test: /jsx?$/,
-       exclude: /(node_modules|bower_components)/,
-       use: [{
-         loader: 'babel-loader',
-         options: {
-           'presets': ['react', 'es2015', 'stage-2']
-         }
-       }]
-     }]
-   }
+  module: {
+    rules: [{
+      test: /jsx?$/,
+      exclude: /(node_modules|bower_components)/,
+      use: [{
+        loader: 'babel-loader',
+        options: {
+          'presets': ['react', 'es2015', 'stage-2']
+        }
+      }]
+    }]
+  }
 };
