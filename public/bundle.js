@@ -12238,13 +12238,7 @@ var Form = function Form(props) {
 					'div',
 					{ className: 'file_button' },
 					_react2.default.createElement('input', { type: 'file', name: 'photo' })
-				),
-				_react2.default.createElement(
-					'progress',
-					{ id: 'progress_bar', value: '0', max: '100' },
-					'0%'
-				),
-				_react2.default.createElement('div', { id: 'status' })
+				)
 			),
 			_react2.default.createElement(
 				'label',
@@ -12354,7 +12348,9 @@ var getAllMarkers = exports.getAllMarkers = function getAllMarkers() {
 
 var addNewMarker = exports.addNewMarker = function addNewMarker(marker, photo) {
 	return function (dispatch) {
-		_firebase_config.firebase.database().ref('markers').push().then(function (markerVal) {
+		_firebase_config.firebase.database().ref('markers').push().once('value').then(function (markerVal) {
+			console.log(markerVal.val());
+
 			var markerKey = markerVal.getKey();
 			var storageRef = _firebase_config.storage.ref(markerKey + '/' + photo.name);
 			storageRef.put(photo).then(function () {
@@ -21316,7 +21312,7 @@ var PopUp = function PopUp(props) {
 			{ position: props.position, onCloseClick: function onCloseClick() {
 					return props.closePopUp();
 				} },
-			_react2.default.createElement(_Form2.default, { onSubmit: props.handleSubmit })
+			_react2.default.createElement(_Form2.default, { onSubmit: props.onSubmit })
 		)
 	);
 };
@@ -21653,7 +21649,7 @@ var Modal = exports.Modal = function Modal(props) {
 				_react2.default.createElement(
 					'p',
 					null,
-					'Click a marker to view existing artwork, or click the map to add your own siting!'
+					'Click a marker to view existing artwork, or click the map to add your own sighting!'
 				)
 			)
 		) : null

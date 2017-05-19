@@ -8,7 +8,7 @@ const PopUp = (props) => {
 	return (
 		<div>
 			<InfoWindow position={props.position} onCloseClick={() => props.closePopUp()}>
-				<Form onSubmit={props.handleSubmit}/>
+				<Form onSubmit={props.onSubmit}/>
 			</InfoWindow>
 		</div>
 	)
