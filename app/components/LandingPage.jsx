@@ -5,8 +5,8 @@ import MapComponent from './MapComponent';
 const LandingPage = (props) => {
 	return (
 		<div>
-			<Navbar/>
-			<MapComponent/>
+			<Navbar />
+			<MapComponent />
 		</div>
 	)
 };
