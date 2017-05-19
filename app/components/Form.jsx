@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
 
-const Form = props => {
+export const Form = props => {
 	return (
 		<div className='art_form'>
 			<form onSubmit={props.onSubmit}>
@@ -18,7 +18,5 @@ const Form = props => {
 		    </Button>
 		    </form>
 	    </div>
-	)
+	);
 };
-
-export default Form;
