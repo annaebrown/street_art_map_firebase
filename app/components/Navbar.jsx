@@ -1,8 +1,9 @@
 import React from 'react';
 import { Navbar, Glyphicon } from 'react-bootstrap';
 
-const NavBar = (props) => (
-	<Navbar fixedTop={true} className='nav'>
+export const NavBar = (props) => {
+	return (
+		<Navbar fixedTop={true} className='nav'>
 			<span><Glyphicon glyph="flash"/></span>
 			<span><Glyphicon glyph="flash"/></span>
 			<span><Glyphicon glyph="flash"/></span>
@@ -12,7 +13,6 @@ const NavBar = (props) => (
 		    <span><Glyphicon glyph="flash" /></span>
 		    <span><Glyphicon glyph="flash"/></span>
 		    <span><Glyphicon glyph="flash"/></span>
-	</Navbar>
-);
-
-export default NavBar;
+		</Navbar>
+	);
+};

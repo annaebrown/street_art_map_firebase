@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ArtworkWindow = (props) => {
+export const ArtworkWindow = props => {
 	const marker = props.marker;
 	return (
 		<div className='art_window'>
@@ -11,7 +11,5 @@ const ArtworkWindow = (props) => {
 				<p>{marker.artworks[0].description}</p>
 			</div>
 		</div>
-	)
+	);
 };
-
-export default ArtworkWindow;

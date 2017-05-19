@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import InitialMap from './InitialMap';
-import Form from './Form';
-import {Modal} from './Modal';
-import {Button} from 'react-bootstrap';
-import {getAllMarkers, addNewMarker, toggleMarker} from '../reducers/mapReducer';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { InitialMap } from './InitialMap';
+import { Form } from './Form';
+import { Modal } from './Modal';
+import { Button } from 'react-bootstrap';
+import { getAllMarkers, addNewMarker, toggleMarker } from '../reducers/mapReducer';
 import { 
   withGoogleMap,
   GoogleMap,
@@ -60,8 +60,6 @@ class MapComponent extends Component {
       center: {lat, lng},
       showPopUp: true
     });
-
-    // this.setCenter(this.state.map)
   }
 
   setMap(map) {
@@ -135,10 +133,6 @@ class MapComponent extends Component {
             setCenter={this.setCenter}
             setMap={this.setMap}
           />
-          {/*
-            onMarkerRightClick={this.handleMarkerRightClick}
-            onMarkerClose={this.handleMarkerClose}
-          */}
         </div>
       </div>
     );
@@ -151,14 +145,13 @@ const mapStateToProps = state => {
   return {
     markers: state.markers
   }
-}
+};
 
 const mapDispatchToProps = dispatch => {
   return {
     addNewMarker: (marker, photo) => dispatch(addNewMarker(marker, photo)),
     getMarkers: () => dispatch(getAllMarkers())
   }
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(MapComponent);
-

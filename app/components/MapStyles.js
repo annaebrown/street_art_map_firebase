@@ -18,4 +18,3 @@ export const fancyStyles = [
   {"featureType":"road.arterial","elementType":"geometry.fill","stylers":[{"color":"#efe9e4"},{"lightness":-10}]},
   {"featureType":"poi","elementType":"labels","stylers":[{"visibility":"simplified"}]}
 ];
-

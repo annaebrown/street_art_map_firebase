@@ -1,14 +1,12 @@
 import React from 'react';
-import Navbar from './Navbar';
+import { Navbar } from './Navbar';
 import MapComponent from './MapComponent';
 
-const LandingPage = (props) => {
+export const LandingPage = props => {
 	return (
 		<div>
-			<Navbar/>
-			<MapComponent/>
+			<Navbar />
+			<MapComponent />
 		</div>
-	)
+	);
 };
-
-export default LandingPage;
