@@ -1,0 +1,56 @@
+$tan: #f8f8f8;
+$button_color: #e85113;
+$modal_border: .5px solid #888;
+$modal_font: bold 1.3em "Work Sans", "Proza Libre", "Lucida Console", sans-serif;
+
+.modal {
+	width: 20%;
+	height: auto;
+	display: block;
+	bottom: unset;
+	margin-top: 10%;
+	font: $modal_font;
+	.modal_container {
+		background-color: $tan;
+		padding: 10%;
+		border: $modal_border;
+		&:after {
+			content: '';
+			display: table;
+			clear: both;
+		}
+	}
+	#modal_button {
+		overflow: auto;
+		width: 100%;
+		height: auto;
+		display: block;
+		text-align: center;
+		background: $button_color;
+		color: $tan;
+		border-radius: 5px;
+		&:after {
+			content: '';
+			display: table;
+			clear: both;
+		}
+	}
+	@media screen and (max-width: 770px) {
+		width: 50%;
+		margin: 10% auto;
+		font-size: 1em;
+		.modal_container {
+			padding: 5%;
+		}
+		#modal_button {
+			height: 50px;
+		}
+	}
+	@media screen and (max-width: 400px) {
+		font-size: .7em;
+		#modal_button {
+			height: 30px;
+			margin-top: 20%;
+		}
+	}
+} 

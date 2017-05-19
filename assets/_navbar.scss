@@ -1,0 +1,25 @@
+$lightwhite: #19a0d8;
+$lightning: #e85113;
+
+.navbar {
+	font-family: "Work Sans", "Proza Libre", "Lucida Console", sans-serif;
+	color: $lightwhite;
+	font-size: 2em;
+	display: inline-block;
+	.navbar_text {
+		float: none;
+		display: inline-block;
+	}
+	.glyphicon {
+		display: inline-block;
+		color: $lightning;
+		font-size: 1em;
+	}
+	@media screen and (max-width: 400px) {
+		font-size: 1.3em;
+		.glyphicon {
+			font-size: .6em;
+		}
+	}
+}
+

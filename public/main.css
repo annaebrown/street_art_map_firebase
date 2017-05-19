@@ -1,37 +1,115 @@
-.navbar {
-  font-family: "Lucida Console";
-  color: #19a0d8;
-  font-size: 35px;
-  display: inline-block; }
-  .navbar .navbar_text {
-    float: none;
-    display: inline-block; }
+@import url("https://fonts.googleapis.com/css?family=Proza+Libre|Work+Sans");
+.art_form {
+  z-index: 2; }
+  .art_form label {
+    font-size: 1em; }
+  .art_form .file_button {
+    background: transparent url(/camera.jpg) left top no-repeat;
+    background-size: 12%; }
+    .art_form .file_button input {
+      opacity: 0; }
+  .art_form input {
+    border-radius: 4px;
+    width: 100%;
+    padding: 8px 15px;
+    margin-bottom: 12px; }
+  .art_form progress {
+    display: block;
+    padding: 2px 5px; }
+    .art_form progress .success {
+      background: #0c0 none 0 0 no-repeat; }
+    .art_form progress .failed {
+      background: #c00 none 0 0 no-repeat; }
+
+.art_window {
+  padding: 10px;
+  font-size: 1.2em;
+  overflow-wrap: break-word;
+  width: 80%; }
+  .art_window .art_image {
+    height: auto;
+    margin-bottom: 5px;
+    width: 150px;
+    overflow: hidden; }
+    .art_window .art_image img {
+      height: auto;
+      width: 100%;
+      max-width: 100%;
+      box-shadow: inset 0 0 10px #000000; }
+  @media screen and (max-width: 400px) {
+    .art_window {
+      font-size: .9em;
+      padding: 5px; } }
+
+.gm-style-iw {
+  max-width: 300px; }
 
 .container {
   text-align: center;
-  width: 100% !important; }
+  width: 100%;
+  position: relative; }
 
 .map_container {
   height: 100%; }
 
-.glyphicon {
-  display: inline-block;
-  color: #e85113;
-  font-size: 20px; }
-
-label {
-  font-size: 15px; }
-
-input {
-  border-radius: 4px;
-  width: 100%;
-  padding: 8px 15px;
-  margin-bottom: 12px !important;
-  box-sizing: border-box; }
-
-#infowindow {
+.modal {
+  width: 20%;
+  height: auto;
   display: block;
-  float: left; }
+  bottom: unset;
+  margin-top: 10%;
+  font: bold 1.3em "Work Sans", "Proza Libre", "Lucida Console", sans-serif; }
+  .modal .modal_container {
+    background-color: #f8f8f8;
+    padding: 10%;
+    border: 0.5px solid #888; }
+    .modal .modal_container:after {
+      content: '';
+      display: table;
+      clear: both; }
+  .modal #modal_button {
+    overflow: auto;
+    width: 100%;
+    height: auto;
+    display: block;
+    text-align: center;
+    background: #e85113;
+    color: #f8f8f8;
+    border-radius: 5px; }
+    .modal #modal_button:after {
+      content: '';
+      display: table;
+      clear: both; }
+  @media screen and (max-width: 770px) {
+    .modal {
+      width: 50%;
+      margin: 10% auto;
+      font-size: 1em; }
+      .modal .modal_container {
+        padding: 5%; }
+      .modal #modal_button {
+        height: 50px; } }
+  @media screen and (max-width: 400px) {
+    .modal {
+      font-size: .7em; }
+      .modal #modal_button {
+        height: 30px;
+        margin-top: 20%; } }
 
-#description {
-  margin-top: 8px; }
+.navbar {
+  font-family: "Work Sans", "Proza Libre", "Lucida Console", sans-serif;
+  color: #19a0d8;
+  font-size: 2em;
+  display: inline-block; }
+  .navbar .navbar_text {
+    float: none;
+    display: inline-block; }
+  .navbar .glyphicon {
+    display: inline-block;
+    color: #e85113;
+    font-size: 1em; }
+  @media screen and (max-width: 400px) {
+    .navbar {
+      font-size: 1.3em; }
+      .navbar .glyphicon {
+        font-size: .6em; } }

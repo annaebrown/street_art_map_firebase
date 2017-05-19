@@ -1,14 +1,13 @@
 import React from 'react';
-import { 
-  InfoWindow
-} from "react-google-maps";
+import { Form } from './Form';
+import { InfoWindow } from "react-google-maps";
 
-const PopUp = (props) => {
+export const PopUp = props => {
 	return (
 		<div>
-			<InfoWindow position={props.position} onCloseClick={() => props.closePopUp()}/>
+			<InfoWindow position={props.position} onCloseClick={() => props.closePopUp()}>
+				<Form onSubmit={props.onSubmit}/>
+			</InfoWindow>
 		</div>
-	)
-}
-
-export default PopUp;
+	);
+};

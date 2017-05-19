@@ -1,0 +1,56 @@
+.art_form {
+	z-index: 2;
+	label {
+		font-size: 1em;
+	}
+	.file_button {
+		background: transparent url(/camera.jpg) left top no-repeat;
+		background-size: 12%;
+		input {
+			opacity: 0;
+		}
+	}
+	input {
+		border-radius: 4px;
+		width: 100%;
+		padding: 8px 15px;
+		margin-bottom: 12px;
+	}
+	progress {
+		display: block;
+		padding: 2px 5px;
+		.success {
+			background: #0c0 none 0 0 no-repeat;
+		}
+		.failed {
+			background: #c00 none 0 0 no-repeat;
+		}
+	}
+}
+
+.art_window {
+	padding: 10px;
+	font-size: 1.2em;
+	overflow-wrap: break-word;
+	width: 80%;
+	.art_image {
+		height: auto;
+		margin-bottom: 5px;
+		width: 150px;
+		overflow: hidden;
+		img {
+			height: auto;
+			width: 100%;
+			max-width: 100%;
+			box-shadow: inset 0 0 10px #000000;
+		}
+	}
+	@media screen and (max-width: 400px) {
+		font-size: .9em;
+		padding: 5px;
+	}
+}
+
+.gm-style-iw {
+	max-width: 300px;
+}
