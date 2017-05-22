@@ -1,4 +1,4 @@
-import {firebase, storage} from '../../firebase/firebase_config';
+import { firebase, storage } from '../../firebase/firebase_config';
 
 const GET_ALL_MARKERS = 'GET_ALL_MARKERS';
 const UPDATE_MARKER_STATUS = 'UPDATE_MARKER_STATUS';

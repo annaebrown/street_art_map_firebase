@@ -1,16 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { InitialMap } from './InitialMap';
 import { Form } from './Form';
 import { Modal } from './Modal';
 import { Button } from 'react-bootstrap';
 import { getAllMarkers, addNewMarker, toggleMarker } from '../reducers/mapReducer';
-import { 
-  withGoogleMap,
-  GoogleMap,
-  InfoWindow,
-  Marker,
-} from 'react-google-maps';
+import { withGoogleMap, GoogleMap, InfoWindow, Marker } from 'react-google-maps';
 
 class MapComponent extends Component {
 
@@ -138,6 +133,12 @@ class MapComponent extends Component {
     );
   }
 }
+
+MapComponent.propTypes = {
+  markers: PropTypes.array.isRequired,
+  addNewMarker: PropTypes.func.isRequired,
+  getMarkers: PropTypes.func.isRequired
+};
 
 /*CONTAINER*/
 

@@ -1,15 +1,10 @@
-import { React } from 'react';
+import React, { PropTypes } from 'react';
 import { PopUp } from './InfoWindow';
 import { ArtworkWindow } from './ArtworkWindow';
 import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 import { fancyStyles } from './MapStyles';
 
-import { 
-  withGoogleMap,
-  GoogleMap,
-  InfoWindow,
-  Marker,
-} from "react-google-maps";
+import { withGoogleMap, GoogleMap, InfoWindow, Marker } from 'react-google-maps';
 
 export const InitialMap = withGoogleMap(props => (
     <GoogleMap
@@ -50,3 +45,14 @@ export const InitialMap = withGoogleMap(props => (
     </GoogleMap>
   ) 
 );
+
+InitialMap.propTypes = {
+  center: PropTypes.object.isRequired,
+  markers: PropTypes.array.isRequired,
+  popUpPosition: PropTypes.object.isRequired,
+  showProgress: PropTypes.bool.isRequired,
+  handleFormSubmit: PropTypes.func.isRequired,
+  showProgress: PropTypes.func.isRequired,
+  onMarkerClose: PropTypes.func.isRequired,
+  onMapClick: PropTypes.func.isRequired
+};

@@ -11,3 +11,9 @@ export const PopUp = props => {
 		</div>
 	);
 };
+
+PopUp.propTypes = {
+	position: PropTypes.object.isRequired,
+	closePopUp: PropTypes.func.isRequired,
+	onSubmit: PropTypes.func.isRequired
+};

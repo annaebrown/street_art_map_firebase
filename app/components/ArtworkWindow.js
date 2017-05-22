@@ -13,3 +13,7 @@ export const ArtworkWindow = props => {
 		</div>
 	);
 };
+
+ArtworkWindow.propTypes = {
+	marker: PropTypes.object.isRequired
+}
