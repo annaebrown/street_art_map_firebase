@@ -4,26 +4,25 @@ const GET_ALL_MARKERS = 'GET_ALL_MARKERS';
 const UPDATE_MARKER_STATUS = 'UPDATE_MARKER_STATUS';
 const ADD_MARKER = 'ADD_MARKER';
 
-
 export const getMarkers = (markers) => {
 	return {
 		type: GET_ALL_MARKERS,
 		markers
-	}
+	};
 };
 
 export const toggleMarker = marker => {
 	return {
 		type: UPDATE_MARKER_STATUS,
 		marker
-	}
+	};
 };
- 
+
 export const addMarker = marker => {
 	return {
 		type: ADD_MARKER,
 		marker
-	}
+	};
 };
 
 const initialState = {
@@ -34,7 +33,7 @@ export default (state = initialState, action) => {
 
 	const newState = Object.assign({}, state);
 
-	switch(action.type) {
+	switch (action.type) {
 		case GET_ALL_MARKERS:
 			newState.markers = action.markers;
 			break;
@@ -43,16 +42,16 @@ export default (state = initialState, action) => {
 			newState.markers = [...newState.markers, action.marker];
 			break;
 
-		case ADD_MARKER: 
+		case ADD_MARKER:
 			newState.markers = [...newState.markers, action.marker];
 			break;
 
-		default: 
+		default:
 			return state;
 	}
 
 	return newState;
-}
+};
 
 export const getAllMarkers = () => dispatch => {
 	firebase.database().ref('markers') //create a new object that has markers inside
@@ -73,8 +72,6 @@ export const addNewMarker = (marker, photo) => dispatch => {
 	.push()
 	.once('value')
 	.then(markerVal => {
-		console.log(markerVal.val())
-
 		const markerKey = markerVal.getKey();
 		const storageRef = storage.ref(`${markerKey}/${photo.name}`);
 		storageRef.put(photo)
@@ -95,11 +92,10 @@ export const addNewMarker = (marker, photo) => dispatch => {
 					.then(snapshot => {
 						const updatedMarker = snapshot.val();
 						dispatch(addMarker(updatedMarker));
-					})
-				})
-			})
-		})
+					});
+				});
+			});
+		});
 	})
-	.catch(err => console.error(err))
+	.catch(err => console.error(err));
 };
-
